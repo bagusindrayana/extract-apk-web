@@ -150,7 +150,11 @@ export default function Home() {
                   <UploadIcon className="w-10 h-10" />
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Drag and drop your file here or
-                    <Button size="sm" className="mx-2">Browse</Button>
+                    <Button size="sm" className="mx-2" onClick={
+                      () => {
+                        (document.querySelector('input[type="file"]') as HTMLInputElement)?.click();
+                      }
+                    }>Browse</Button>
                   </p>
                 </>
               ) : (
