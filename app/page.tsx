@@ -79,14 +79,15 @@ export default function Home() {
 
   const handleFile = function (file: File) {
     if (file) {
+      const ext = file.name.split('.').pop();
       if (file.size > 50 * 1024 * 1024) {
         alert("File too large, max 50mb");
-      } else if (file.type.toLowerCase() !== "application/vnd.android.package-archive") {
-        alert("Invalid file type, only APK file allowed, your file is " + file.type);
-      } else {
+      } else if (file.type.toLowerCase() == "application/vnd.android.package-archive" || ext?.toLowerCase() == "apk"){
         setSelectedFile(file);
         setSize(file.size);
         loadApk(file);
+      } else {
+        alert("Invalid file type, only APK file allowed, your file is " + file.type);
       }
     }
   }
@@ -142,7 +143,7 @@ export default function Home() {
         </div>
         <div className="grid gap-4">
           <label onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} className="border-2 border-dashed rounded-lg grid h-[200px] items-center w-full border-gray-200 dark:border-gray-800">
-            <input onChange={handleFileChange} accept="application/vnd.android.package-archive" type="file" className="cursor-pointer relative hidden opacity-0 w-full h-full p-20 z-50" />
+            <input onChange={handleFileChange} accept="application/vnd.android.package-archive,.apk" type="file" className="cursor-pointer relative hidden opacity-0 w-full h-full p-20 z-50" />
             <div className="flex flex-col gap-1.5 items-center justify-center text-center">
               {(selectedFile === null || selectedFile === undefined) ? (
                 <>
