@@ -19,6 +19,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { ImageIcon } from "@/lib/AndroidImages";
+import Image from "next/image";
 
 
 export default function Home() {
@@ -210,7 +211,7 @@ export default function Home() {
                         iconSourceArray.map((icon, index) => {
                           return (
                             <div key={index} className="flex flex-col items-center justify-center">
-                              <img src={icon.source} alt="icon" className="w-12 h-12" />
+                              <Image src={icon.source} alt="icon" className="w-12 h-12" />
                               <small className="text-center">{icon.name}</small>
                             </div>
                           )
