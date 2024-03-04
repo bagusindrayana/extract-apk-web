@@ -35,6 +35,7 @@ export default function Home() {
   const [linkArray, setLinkArray] = useState<string[]>([]);
   const [permissinArray, setPermissionArray] = useState<string[]>([]);
   const [size, setSize] = useState<number>(0);
+  const [dragActive, setDragActive] = useState(false);
 
 
 
@@ -50,13 +51,36 @@ export default function Home() {
     }
   }
 
-  //make handleFileChange function, accept APK file only, and max 5mb
+  const handleDrag = function(e: React.DragEvent<HTMLLabelElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+  
+  // triggers when file is dropped
+  const handleDrop = function(e: React.DragEvent<HTMLLabelElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
+    handleFile(file);
+  };
+
+  const handleFile = function (file: File){
     if (file) {
-      if (file.size > 20 * 1024 * 1024) {
-        alert("File too large, max 20mb");
+      if (file.size > 50 * 1024 * 1024) {
+        alert("File too large, max 50mb");
       } else if (file.type !== "application/vnd.android.package-archive") {
         alert("Invalid file type, only APK file allowed");
       } else {
@@ -65,7 +89,7 @@ export default function Home() {
         loadApk(file);
       }
     }
-  };
+  }
 
   //load apk file with jszip, find AndroidManifest.xml, and parse it
   const loadApk = async (file: File) => {
@@ -103,7 +127,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full py-12">
+    <div className="w-full py-12 height-content">
       <div className="container flex flex-col gap-4 px-4 md:px-6">
         <div className="grid gap-2">
           <h1 className="text-3xl font-bold">Extract Data</h1>
@@ -111,12 +135,12 @@ export default function Home() {
             Upload APK file to extract the data. all process is done in client side, no data will be sent to server.
           </p>
           <p>
-            please be aware of the file size,max file size is 20mb, but recomended file size is less than 10mb or your browser will freeze or crash.
+            please be aware of the file size,max file size is 50MB, but recomended file size is less than 20MB or your browser will freeze or crash.
           </p>
         </div>
         <div className="grid gap-4">
-          <label className="border-2 border-dashed rounded-lg grid h-[200px] items-center w-full border-gray-200 dark:border-gray-800">
-            <input onChange={handleFileChange} type="file" className="cursor-pointer relative hidden opacity-0 w-full h-full p-20 z-50" />
+          <label onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} className="border-2 border-dashed rounded-lg grid h-[200px] items-center w-full border-gray-200 dark:border-gray-800">
+            <input onChange={handleFileChange} accept="application/vnd.android.package-archive" type="file" className="cursor-pointer relative hidden opacity-0 w-full h-full p-20 z-50" />
             <div className="flex flex-col gap-1.5 items-center justify-center text-center">
               {(selectedFile === null || selectedFile === undefined) ? (
                 <>
@@ -176,13 +200,13 @@ export default function Home() {
                       <TabsTrigger value="link_url">Link & Url</TabsTrigger>
                     </TabsList>
                     <TabsContent value="permission">
-                      <div className="grid gap-2 w-full overflow-x-auto">
+                      <div className="grid gap-2 overflow-x-auto">
                         {
                           permissinArray.map((permission, index) => {
                             const permissionData = findPermission(permission);
                             return (
-                              <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-2 p-2 border rounded-lg border-gray-200 dark:border-gray-800">
-                                <div className="flex flex-col">
+                              <div key={index} className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 p-2 border rounded-lg border-gray-200 dark:border-gray-800">
+                                <div className="flex flex-col mb-1">
                                   <div className="font-bold">Name</div>
                                   <div className="text-wrap">{permissionData.name}</div>
                                 </div>

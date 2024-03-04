@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { FaGithub } from "react-icons/fa";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,12 +23,14 @@ export default function RootLayout({
         
         <div className="flex justify-between items-center bg-gray-800 p-4">
           <div className="flex items-center">
-            {/* <img
-              src="/android.svg"
-              alt="Android logo"
-              className="h-8 w-8 mr-2"
-            /> */}
+            
             <h1 className="text-2xl text-white">Extract APK Data</h1>
+
+          </div>
+          <div>
+            <a href="https://github.com/bagusindrayana/extract-apk-web">
+              <FaGithub className="text-white text-2xl" />
+            </a>
           </div>
          </div>
 
@@ -43,7 +46,7 @@ export default function RootLayout({
             by{" "}
             <a
               className="underline"
-              href="https://github.com/bagusindrayana/">Bagus Indrayana</a>
+              href="https://github.com/bagusindrayana/">Dev</a>
           </p>
         </footer>
 

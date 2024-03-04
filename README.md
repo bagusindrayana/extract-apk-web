@@ -8,4 +8,7 @@ extract and view data inside APK file in browser client
 - [x] Get link/url inside classes.dex
 - [ ] Get resource name and value
 - [x] Get all permission
-- [ ] Custom regex for user to search
+- [ ] update json data permission description
+- [ ] custom regex for user to search
+- [ ] dark mode
+- [ ] refactor & clean code
