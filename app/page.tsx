@@ -51,7 +51,7 @@ export default function Home() {
     }
   }
 
-  const handleDrag = function(e: React.DragEvent<HTMLLabelElement>) {
+  const handleDrag = function (e: React.DragEvent<HTMLLabelElement>) {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -60,9 +60,9 @@ export default function Home() {
       setDragActive(false);
     }
   };
-  
+
   // triggers when file is dropped
-  const handleDrop = function(e: React.DragEvent<HTMLLabelElement>) {
+  const handleDrop = function (e: React.DragEvent<HTMLLabelElement>) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -77,12 +77,12 @@ export default function Home() {
     handleFile(file);
   };
 
-  const handleFile = function (file: File){
+  const handleFile = function (file: File) {
     if (file) {
       if (file.size > 50 * 1024 * 1024) {
         alert("File too large, max 50mb");
-      } else if (file.type !== "application/vnd.android.package-archive") {
-        alert("Invalid file type, only APK file allowed");
+      } else if (file.type.toLowerCase() !== "application/vnd.android.package-archive") {
+        alert("Invalid file type, only APK file allowed, your file is " + file.type);
       } else {
         setSelectedFile(file);
         setSize(file.size);
@@ -121,8 +121,10 @@ export default function Home() {
       const listPermissions = Array.from(await apkLoader.manifest.permissions);
       setPermissionArray(listPermissions);
 
+    } else {
+      alert("Failed to load data inside APK file");
     }
-    
+
 
   };
 
@@ -187,7 +189,7 @@ export default function Home() {
                     </div>
                     <div className="grid md:grid-cols-2 gap-2">
                       <div className="font-bold">File Size</div>
-                      <div>{size} bytes / { (size / 1000000).toFixed(2) } MB</div>
+                      <div>{size} bytes / {(size / 1000000).toFixed(2)} MB</div>
                     </div>
                   </div>
                 </div>

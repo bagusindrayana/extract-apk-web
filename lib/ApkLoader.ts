@@ -45,18 +45,22 @@ export class ApkLoader {
         }
 
         const manifestBinary = await zipFile.file("AndroidManifest.xml");
-        const manifestBuffer = await manifestBinary?.async("arraybuffer");
-
-        if (manifestBuffer) {
-            const xmlElement = new Manifest(new XmlElement(new Source(manifestBuffer)));
-            this.manifest = xmlElement;
+        if(manifestBinary !== undefined) {
+            const manifestBuffer = await manifestBinary?.async("arraybuffer");
+            if (manifestBuffer) {
+                const xmlElement = new Manifest(new XmlElement(new Source(manifestBuffer)));
+                this.manifest = xmlElement;
+            }
         }
+        
 
         const resourcesBinary = await zipFile.file("resources.arsc");
-        const resourcesBuffer = await resourcesBinary?.async("arraybuffer");
-        if (resourcesBuffer !== undefined) {
-            var r = new ResourceTable(resourcesBuffer);
-            this.resourceTable = r;
+        if(resourcesBinary !== undefined){
+            const resourcesBuffer = await resourcesBinary?.async("arraybuffer");
+            if (resourcesBuffer !== undefined) {
+                var r = new ResourceTable(resourcesBuffer);
+                this.resourceTable = r;
+            }
         }
     }
 
