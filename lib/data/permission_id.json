@@ -1,0 +1,170 @@
+{
+    "permissions": [
+        {
+            "name": "ACCESS_COARSE_LOCATION",
+            "description": "Memungkinkan aplikasi mengakses lokasi perangkat secara kasar (akurasi rendah).",
+            "misuse": "Melacak lokasi pengguna tanpa sepengetahuan mereka, menjual data lokasi pengguna."
+        },
+        {
+            "name": "ACCESS_FINE_LOCATION",
+            "description": "Memungkinkan aplikasi mengakses lokasi perangkat secara presisi (akurasi tinggi).",
+            "misuse": "Melacak pergerakan pengguna secara real-time, menargetkan pengguna dengan iklan berdasarkan lokasi."
+        },
+        {
+            "name": "ACCESS_BACKGROUND_LOCATION",
+            "description": "Memungkinkan aplikasi mengakses lokasi perangkat di latar belakang.",
+            "misuse": "Melacak lokasi pengguna tanpa sepengetahuan mereka, bahkan saat aplikasi tidak digunakan."
+        },
+        {
+            "name": "READ_EXTERNAL_STORAGE",
+            "description": "Memungkinkan aplikasi membaca file dari penyimpanan eksternal perangkat.",
+            "misuse": "Mencuri data pribadi pengguna, seperti foto, video, dan dokumen."
+        },
+        {
+            "name": "WRITE_EXTERNAL_STORAGE",
+            "description": "Memungkinkan aplikasi menulis file ke penyimpanan eksternal perangkat.",
+            "misuse": "Menyebarkan malware ke perangkat pengguna, memodifikasi file pengguna tanpa izin."
+        },
+        {
+            "name": "READ_CONTACTS",
+            "description": "Memungkinkan aplikasi membaca daftar kontak pengguna.",
+            "misuse": "Menjual data kontak pengguna, mengirim spam ke kontak pengguna."
+        },
+        {
+            "name": "WRITE_CONTACTS",
+            "description": "Memungkinkan aplikasi menambahkan, mengubah, dan menghapus kontak pengguna.",
+            "misuse": "Memalsukan identitas pengguna, menyebarkan spam ke kontak pengguna."
+        },
+        {
+            "name": "READ_PHONE_STATE",
+            "description": "Memungkinkan aplikasi mengakses informasi tentang perangkat, seperti IMEI dan nomor telepon.",
+            "misuse": "Melacak identitas perangkat pengguna, mencuri informasi pribadi pengguna."
+        },
+        {
+            "name": "RECORD_AUDIO",
+            "description": "Memungkinkan aplikasi merekam audio dari perangkat.",
+            "misuse": "Merekam percakapan pengguna tanpa sepengetahuan mereka, menjual data audio pengguna."
+        },
+        {
+            "name": "CAMERA",
+            "description": "Memungkinkan aplikasi menggunakan kamera perangkat.",
+            "misuse": "Memotret atau merekam video pengguna tanpa sepengetahuan mereka, menyebarkan konten privasi."
+        },
+        {
+            "name": "SEND_SMS",
+            "description": "Memungkinkan aplikasi mengirim pesan SMS.",
+            "misuse": "Mengirim spam SMS ke pengguna, menipu pengguna dengan penipuan SMS."
+        },
+        {
+            "name": "READ_SMS",
+            "description": "Memungkinkan aplikasi membaca pesan SMS.",
+            "misuse": "Mencuri informasi pribadi dari pesan SMS pengguna, melacak aktivitas pengguna."
+        },
+        {
+            "name": "RECEIVE_SMS",
+            "description": "Memungkinkan aplikasi menerima pesan SMS.",
+            "misuse": "Membaca kode verifikasi dari pesan SMS, mengakses informasi pribadi pengguna."
+        },
+        {
+            "name": "READ_PHONE_NUMBERS",
+            "description": "Memungkinkan aplikasi membaca nomor telepon yang disimpan di perangkat.",
+            "misuse": "Mencuri nomor telepon pengguna, menjual data kontak pengguna."
+        },
+        {
+            "name": "ANSWER_PHONE_CALLS",
+            "description": "Memungkinkan aplikasi menjawab panggilan telepon yang masuk.",
+            "misuse": "Mendengarkan percakapan pengguna tanpa sepengetahuan mereka, merekam panggilan telepon."
+        },
+        {
+            "name": "READ_CELL_BROADCASTS",
+            "description": "Memungkinkan aplikasi membaca siaran seluler yang diterima oleh perangkat.",
+            "misuse": "Mengakses informasi pribadi pengguna, seperti lokasi dan aktivitas."
+        },
+        {
+            "name": "RECEIVE_MMS",
+            "description": "Memungkinkan aplikasi menerima pesan MMS.",
+            "misuse": "Mengakses informasi pribadi pengguna, seperti foto dan video."
+        },
+        {
+            "name": "RECEIVE_WAP_PUSH",
+            "description": "Memungkinkan aplikasi menerima pesan WAP.",
+            "misuse": "Mengakses informasi pribadi pengguna, seperti URL dan lokasi."
+        },
+        {
+            "name": "INTERNET",
+            "description": "Memungkinkan aplikasi terhubung ke internet.",
+            "misuse": "Mencuri data pribadi pengguna, mentransfer data pengguna ke pihak ketiga tanpa izin."
+        },
+        {
+            "name": "ACCESS_NETWORK_STATE",
+            "description": "Memungkinkan aplikasi mengakses informasi tentang jaringan, seperti status koneksi dan jenis jaringan.",
+            "misuse": "Melacak aktivitas online pengguna, memanipulasi koneksi jaringan pengguna."
+        },
+        {
+            "name": "BLUETOOTH",
+            "description": "Memungkinkan aplikasi menggunakan Bluetooth.",
+            "misuse": "Mencuri data dari perangkat Bluetooth lain, mengendalikan perangkat Bluetooth lain tanpa izin."
+        },
+        {
+            "name": "NFC",
+            "description": "Memungkinkan aplikasi menggunakan NFC.",
+            "misuse": "Mencuri data dari kartu NFC, melakukan pembayaran tanpa izin pengguna."
+        },
+        {
+            "name": "BODY_SENSORS",
+            "description": "Memungkinkan aplikasi mengakses data sensor tubuh, seperti detak jantung dan langkah kaki.",
+            "misuse": "Melacak kesehatan pengguna tanpa sepengetahuan mereka, menjual data kesehatan pengguna."
+        },
+        {
+            "name": "CALL_PHONE",
+            "description": "Memungkinkan aplikasi melakukan panggilan telepon.",
+            "misuse": "Melakukan panggilan spam ke pengguna, menipu pengguna dengan penipuan telepon."
+        },
+        {
+            "name": "READ_CALENDAR",
+            "description": "Memungkinkan aplikasi membaca acara dari kalender pengguna.",
+            "misuse": "Melacak jadwal dan aktivitas pengguna, menjual data kalender pengguna."
+        },
+        {
+            "name": "WRITE_CALENDAR",
+            "description": "Memungkinkan aplikasi menambahkan, mengubah, dan menghapus acara dari kalender pengguna.",
+            "misuse": "Menjadwalkan acara palsu di kalender pengguna, mengganggu produktivitas pengguna."
+        },
+        {
+            "name": "READ_CALL_LOG",
+            "description": "Memungkinkan aplikasi membaca riwayat panggilan pengguna.",
+            "misuse": "Melacak aktivitas telepon pengguna, menjual data riwayat panggilan pengguna."
+        },
+        {
+            "name": "USE_SIP",
+            "description": "Memungkinkan aplikasi menggunakan VoIP (Voice over IP).",
+            "misuse": "Melakukan panggilan VoIP tanpa izin pengguna, membebankan biaya kepada pengguna."
+        },
+        {
+            "name": "SYSTEM_ALERT_WINDOW",
+            "description": "Memungkinkan aplikasi menampilkan overlay di atas aplikasi lain.",
+            "misuse": "Menampilkan iklan yang mengganggu atau berbahaya, meniru aplikasi lain untuk menipu pengguna."
+        },
+        {
+            "name": "VIBRATE",
+            "description": "Memungkinkan aplikasi menggetarkan perangkat.",
+            "misuse": "Mengganggu pengguna dengan getaran yang tidak diinginkan, menguras baterai perangkat."
+        },
+        {
+            "name":"WAKE_LOCK",
+            "description":"Memungkinkan aplikasi untuk mencegah perangkat tidur.",
+            "misuse":"Menjalankan layanan berbahaya di latar belakang, menguras baterai perangkat."
+        },
+        {
+            "name":"RECEIVE_BOOT_COMPLETED",
+            "description":"Memungkinkan aplikasi menerima pemberitahuan bahwa sistem telah selesai booting.",
+            "misuse":"Menjalankan layanan berbahaya di latar belakang, tanpa sepengetahuan pengguna."
+        },
+        {
+            "name":"FOREGROUND_SERVICE",
+            "description":"Memungkinkan aplikasi untuk menjalankan layanan sebagai proses depan.",
+            "misuse":"Mengganggu pengguna dengan notifikasi yang tidak diinginkan, menguras baterai perangkat."
+            
+        }
+    ]
+}

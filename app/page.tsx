@@ -12,6 +12,8 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 const XmlBeautify = require('xml-beautify');
 
+const dataPermission = require("../lib/data/permission_en.json");
+
 import {
   Tabs,
   TabsContent,
@@ -31,6 +33,23 @@ export default function Home() {
   const [xmlContent, setXmlContent] = useState<string>('');
   const [iconSourceArray, setIconSourceArray] = useState<ImageIcon[]>([]);
   const [linkArray, setLinkArray] = useState<string[]>([]);
+  const [permissinArray, setPermissionArray] = useState<string[]>([]);
+  const [size, setSize] = useState<number>(0);
+
+
+
+  function findPermission(name: string) {
+    if (name == "" || name == null || name == undefined) {
+      return { name: "No name", description: "No description", misuse: "No misuse" };
+    }
+    const permission = dataPermission.permissions.find((item: any) => item.name === name.replace("android.permission.", ""));
+    if (permission) {
+      return permission;
+    } else {
+      return { name: name, description: "No description", misuse: "No misuse" };
+    }
+  }
+
   //make handleFileChange function, accept APK file only, and max 5mb
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -42,6 +61,7 @@ export default function Home() {
         alert("Invalid file type, only APK file allowed");
       } else {
         setSelectedFile(file);
+        setSize(file.size);
         loadApk(file);
       }
     }
@@ -61,74 +81,24 @@ export default function Home() {
         });
       setXmlContent(beautifiedXmlText);
       setPackageName(apkLoader.manifest.package);
+
       if (typeof apkLoader.manifest.applicationLabel === 'string') {
         setLabelName(apkLoader.manifest.applicationLabel);
       } else {
         setLabelName(apkLoader.resourceTable?.getResource(apkLoader.manifest.applicationLabel) || '');
       }
-      
+
       setVersion(apkLoader.manifest.versionName);
       const images = await apkLoader.getImages();
       setIconSourceArray(images);
       const links = await apkLoader.getLinks();
       setLinkArray(links);
+
+      const listPermissions = Array.from(await apkLoader.manifest.permissions);
+      setPermissionArray(listPermissions);
+
     }
-    // var manifest = apkLoader.androidManifest;
-    // if (manifest) {
-    //   setXmlContent(manifest.getOriginalXML());
-
-    //   const attributeTest: TagAttribute | undefined = manifest.getTagAttribute('targetSdkVersion');
-    //   console.log(attributeTest);
-
-    //   const attribute: TagAttribute | undefined = manifest.getTagAttribute('package');
-    //   if (attribute) {
-    //     if (attribute.type === TagAttribute.ATTR_STRING) {
-    //       setPackageName(manifest.getStringValue(attribute.valueString));
-    //     }
-    //   }
-    // }
-    // var images = await apkLoader.getImages();
-    // console.log(images);
-    // setIconSourceArray(images);
-    // const zip = new JSZip();
-    // const buffer = await file.arrayBuffer();
-    // const zipFile = await zip.loadAsync(buffer);
-    // const manifestBinary = await zipFile.file("AndroidManifest.xml");
-
-    // //convert binary to original XML content
-    // const manifestBuffer = await manifestBinary?.async("arraybuffer");
-    // if(manifestBuffer){
-    //   const xmlElement = new XmlElement(new Source(manifestBuffer));
-    //   var beautifiedXmlText = new XmlBeautify().beautify(xmlElement.originalXml(), 
-    //     {
-    //         indent: "  ",  //indent pattern like white spaces
-    //         useSelfClosingElement: true //true:use self-closing element when empty element.
-    //     });
-    //   setXmlContent(beautifiedXmlText);
-    // }
-    // if (manifestBuffer !== undefined) {
-    //   let magicNumber: string = util.uint8ArrayToHex(new Uint8Array(manifestBuffer, 0, 4));
-    //   if (magicNumber === AndroidManifest.MAGIC_NUMBER) {
-    //     var manifest = new AndroidManifest(manifestBuffer);
-    //     setXmlContent(manifest.getOriginalXML());
-    //     const attribute: TagAttribute | undefined = manifest.getTagAttribute('package');
-    //     if (attribute) {
-    //       if (attribute.type === TagAttribute.ATTR_STRING) {
-    //         setPackageName(manifest.getStringValue(attribute.valueString));
-    //       }
-    //     }
-    //   }
-
-    // }
-
-
-    // const manifestContent = new TextDecoder("utf-8").decode(manifestBuffer, { stream: true });
-    // console.log(manifestContent);
-    // //parse XML content
-    // const parser = new DOMParser();
-    // const xmlDoc = parser.parseFromString(manifestContent, "text/xml");
-    // console.log(xmlDoc);
-
+    
 
   };
 
@@ -141,7 +111,7 @@ export default function Home() {
             Upload APK file to extract the data. all process is done in client side, no data will be sent to server.
           </p>
           <p>
-          please be aware of the file size,max file size is 20mb, but recomended file size is less than 10mb or your browser will freeze or crash.
+            please be aware of the file size,max file size is 20mb, but recomended file size is less than 10mb or your browser will freeze or crash.
           </p>
         </div>
         <div className="grid gap-4">
@@ -191,46 +161,74 @@ export default function Home() {
                       <div className="font-bold">Version</div>
                       <div>{version}</div>
                     </div>
+                    <div className="grid md:grid-cols-2 gap-2">
+                      <div className="font-bold">File Size</div>
+                      <div>{size} bytes / { (size / 1000000).toFixed(2) } MB</div>
+                    </div>
                   </div>
                 </div>
                 <div className="w-100 p-4">
-                <Tabs defaultValue="androidmanifest" >
-                  <TabsList className="m-0">
-                    <TabsTrigger value="androidmanifest">AndroidManifest.xml</TabsTrigger>
-                    <TabsTrigger value="icon_image">Icon & Image</TabsTrigger>
-                    <TabsTrigger value="link_url">Link & Url</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="androidmanifest">
-                    <SyntaxHighlighter language="xml" style={docco}>
-                      {xmlContent}
-                    </SyntaxHighlighter>
-                  </TabsContent>
-                  <TabsContent value="icon_image">
-                    <div className="grid grid-cols-4 gap-4">
-                      {
-                        iconSourceArray.map((icon, index) => {
-                          return (
-                            <div key={index} className="flex flex-col items-center justify-center">
-                              <Image src={icon.source} alt="icon" className="w-12 h-12" />
-                              <small className="text-center">{icon.name}</small>
-                            </div>
-                          )
-                        })
-                      }
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="link_url">
-                    <div className="grid gap-2">
-                      {
-                        linkArray.map((link, index) => {
-                          return (
-                            <a key={index} href={link} target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400">{link}</a>
-                          )
-                        })
-                      }
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                  <Tabs defaultValue="permission" >
+                    <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto" >
+                      <TabsTrigger value="permission">Permission</TabsTrigger>
+                      <TabsTrigger value="androidmanifest">AndroidManifest.xml</TabsTrigger>
+                      <TabsTrigger value="icon_image">Icon & Image</TabsTrigger>
+                      <TabsTrigger value="link_url">Link & Url</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="permission">
+                      <div className="grid gap-2 w-full overflow-x-auto">
+                        {
+                          permissinArray.map((permission, index) => {
+                            const permissionData = findPermission(permission);
+                            return (
+                              <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-2 p-2 border rounded-lg border-gray-200 dark:border-gray-800">
+                                <div className="flex flex-col">
+                                  <div className="font-bold">Name</div>
+                                  <div className="text-wrap">{permissionData.name}</div>
+                                </div>
+                                <div className="flex flex-col">
+                                  <div className="font-bold">Description</div>
+                                  <div className="text-wrap">{permissionData.description}</div>
+                                  <div className="font-bold">Misuse</div>
+                                  <div className="text-wrap">{permissionData.misuse}</div>
+                                </div>
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="androidmanifest">
+                      <SyntaxHighlighter language="xml" style={docco}>
+                        {xmlContent}
+                      </SyntaxHighlighter>
+                    </TabsContent>
+                    <TabsContent value="icon_image">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {
+                          iconSourceArray.map((icon, index) => {
+                            return (
+                              <div key={index} className="flex flex-col items-center justify-center w-full p-2">
+                                <Image src={icon.source} alt="icon" height={48} width={48} className="w-12 h-12" />
+                                <small className="text-center">{icon.name}</small>
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="link_url">
+                      <div className="grid gap-2 w-full overflow-x-auto">
+                        {
+                          linkArray.map((link, index) => {
+                            return (
+                              <a key={index} href={link} target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400">{link}</a>
+                            )
+                          })
+                        }
+                      </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
 
               </>

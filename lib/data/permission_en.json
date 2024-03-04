@@ -1,0 +1,169 @@
+{
+    "permissions": [
+        {
+            "name": "ACCESS_COARSE_LOCATION",
+            "description": "Allows an app to access the device's location roughly (low accuracy).",
+            "misuse": "Tracking the user's location without their knowledge, selling the user's location data."
+        },
+        {
+            "name": "ACCESS_FINE_LOCATION",
+            "description": "Allows an app to access the device's location precisely (high accuracy).",
+            "misuse": "Tracking the user's movement in real-time, targeting the user with location-based ads."
+        },
+        {
+            "name": "ACCESS_BACKGROUND_LOCATION",
+            "description": "Allows an app to access the device's location in the background.",
+            "misuse": "Tracking the user's location without their knowledge, even when the app is not in use."
+        },
+        {
+            "name": "READ_EXTERNAL_STORAGE",
+            "description": "Allows an app to read files from the device's external storage.",
+            "misuse": "Stealing the user's personal data, such as photos, videos, and documents."
+        },
+        {
+            "name": "WRITE_EXTERNAL_STORAGE",
+            "description": "Allows an app to write files to the device's external storage.",
+            "misuse": "Spreading malware to the user's device, modifying the user's files without permission."
+        },
+        {
+            "name": "READ_CONTACTS",
+            "description": "Allows an app to read the user's contact list.",
+            "misuse": "Selling the user's contact data, sending spam to the user's contacts."
+        },
+        {
+            "name": "WRITE_CONTACTS",
+            "description": "Allows an app to add, modify, and delete the user's contacts.",
+            "misuse": "Forging the user's identity, sending spam to the user's contacts."
+        },
+        {
+            "name": "READ_PHONE_STATE",
+            "description": "Allows an app to access information about the device, such as IMEI and phone number.",
+            "misuse": "Tracking the user's device identity, stealing the user's personal information."
+        },
+        {
+            "name": "RECORD_AUDIO",
+            "description": "Allows an app to record audio from the device.",
+            "misuse": "Recording the user's conversations without their knowledge, selling the user's audio data."
+        },
+        {
+            "name": "CAMERA",
+            "description": "Allows an app to use the device's camera.",
+            "misuse": "Taking pictures or videos of the user without their knowledge, spreading private content."
+        },
+        {
+            "name": "SEND_SMS",
+            "description": "Allows an app to send SMS messages.",
+            "misuse": "Sending spam SMS to the user, scamming the user with SMS scams."
+        },
+        {
+            "name": "READ_SMS",
+            "description": "Allows an app to read SMS messages.",
+            "misuse": "Stealing personal information from the user's SMS messages, tracking the user's activity."
+        },
+        {
+            "name": "RECEIVE_SMS",
+            "description": "Allows an app to receive SMS messages.",
+            "misuse": "Intercepting SMS messages containing sensitive information, tracking the user's activity."
+        },
+        {
+            "name": "READ_PHONE_NUMBERS",
+            "description": "Allows an app to read the device's phone number.",
+            "misuse": "Tracking the user's device identity, stealing the user's personal information."
+        },
+        {
+            "name": "ANSWER_PHONE_CALLS",
+            "description": "Allows an app to answer incoming phone calls.",
+            "misuse": "Intercepting phone calls without the user's knowledge, scamming the user with phone scams."
+        },
+        {
+            "name": "READ_CELL_BROADCASTS",
+            "description": "Allows an app to read cell broadcasts.",
+            "misuse": "Intercepting cell broadcasts containing sensitive information, tracking the user's activity."
+        },
+        {
+            "name": "RECEIVE_MMS",
+            "description": "Allows an app to receive MMS messages.",
+            "misuse": "Intercepting MMS messages containing sensitive information, tracking the user's activity."
+        },
+        {
+            "name": "RECEIVE_WAP_PUSH",
+            "description": "Allows an app to receive WAP push messages.",
+            "misuse": "Intercepting WAP push messages containing sensitive information, tracking the user's activity."
+        },
+        {
+            "name": "INTERNET",
+            "description": "Allows an app to connect to the internet.",
+            "misuse": "Stealing the user's personal data, transferring the user's data to third parties without permission."
+        },
+        {
+            "name": "ACCESS_NETWORK_STATE",
+            "description": "Allows an app to access information about the network, such as connection status and network type.",
+            "misuse": "Tracking the user's online activity, manipulating the user's network connection."
+        },
+        {
+            "name": "BLUETOOTH",
+            "description": "Allows an app to use Bluetooth.",
+            "misuse": "Stealing data from other Bluetooth devices, controlling other Bluetooth devices without permission."
+        },
+        {
+            "name": "NFC",
+            "description": "Allows an app to use NFC.",
+            "misuse": "Stealing data from NFC cards, making payments without the user's permission, stealing data from other NFC devices, controlling other NFC devices without permission."
+        },
+        {
+            "name": "BODY_SENSORS",
+            "description": "Allows an app to access body sensor data, such as heart rate and steps.",
+            "misuse": "Tracking the user's health without their knowledge, selling the user's health data."
+        },
+        {
+            "name": "CALL_PHONE",
+            "description": "Allows an app to make phone calls.",
+            "misuse": "Making spam calls to the user, scamming the user with phone scams."
+        },
+        {
+            "name": "READ_CALENDAR",
+            "description": "Allows an app to read events from the user's calendar.",
+            "misuse": "Tracking the user's schedule and activities, selling the user's calendar data."
+        },
+        {
+            "name": "WRITE_CALENDAR",
+            "description": "Allows an app to add, modify, and delete events from the user's calendar.",
+            "misuse": "Scheduling fake events in the user's calendar, disrupting the user's productivity."
+        },
+        {
+            "name": "READ_CALL_LOG",
+            "description": "Allows an app to read the user's call history.",
+            "misuse": "Tracking the user's phone activity, selling the user's call history data."
+        },
+        {
+            "name": "USE_SIP",
+            "description": "Allows an app to use VoIP (Voice over IP).",
+            "misuse": "Making VoIP calls without the user's permission, charging the user for calls."
+        },
+        {
+            "name": "SYSTEM_ALERT_WINDOW",
+            "description": "Allows an app to display an overlay on top of other apps.",
+            "misuse": "Displaying disruptive or harmful advertisements, mimicking other apps to deceive the user."
+        },
+        {
+            "name": "VIBRATE",
+            "description": "Allows an app to vibrate the device.",
+            "misuse": "Disturbing the user with unwanted vibrations, draining the device's battery."
+        },
+        {
+            "name":"WAKE_LOCK",
+            "description":"Allows an app to prevent the device from going to sleep.",
+            "misuse":"Draining the device's battery, disrupting the user's sleep."
+        },
+        {
+            "name":"RECEIVE_BOOT_COMPLETED",
+            "description":"Allows an app to receive the ACTION_BOOT_COMPLETED that is broadcast after the system finishes booting.",
+            "misuse":"Starting malicious services after the device boots, running in the background without the user's knowledge."
+        },
+        {
+            "name":"FOREGROUND_SERVICE",
+            "description":"Allows an app to create foreground services.",
+            "misuse":"Running in the background without the user's knowledge, draining the device's battery."
+        }
+    ]
+}

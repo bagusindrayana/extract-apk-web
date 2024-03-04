@@ -57,19 +57,7 @@ export class ApkLoader {
         if (resourcesBuffer !== undefined) {
             var r = new ResourceTable(resourcesBuffer);
             this.resourceTable = r;
-
         }
-
-        //convert binary to original XML content
-        // const manifestBuffer = await manifestBinary?.async("arraybuffer");
-        // if (manifestBuffer !== undefined) {
-        //     let magicNumber: string = util.uint8ArrayToHex(new Uint8Array(manifestBuffer, 0, 4));
-        //     if (magicNumber === AndroidManifest.MAGIC_NUMBER) {
-        //         var manifest = new AndroidManifest(manifestBuffer);
-        //         this.androidManifest = manifest;
-        //     }
-
-        // }
     }
 
     public async getImages() : Promise<ImageIcon[]> {
@@ -78,9 +66,6 @@ export class ApkLoader {
             var r = await new Promise<string>((resolve, reject) => {
                 let arrayBuffer = this.iconImagesBuffers[i];
                 let blob = new Blob([arrayBuffer.buffer], { type: "image/png" });
-                // let urlCreator = window.URL || window.webkitURL;
-                // let imageUrl = urlCreator.createObjectURL(blob);
-                // iconSourceArray.push(imageUrl);
                 
                 //convert to base64
                 let reader = new FileReader();
@@ -114,15 +99,12 @@ export class ApkLoader {
             //regex find all /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
             const rex = new RegExp(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g);
             const matches = r.matchAll(rex);
-            // if (matches) {
-            //     linksArray.push(matches[0]);
-            // }
-            if(matches){{
+
+            if(matches){
                 for (const match of matches) {
                     linksArray.push(match[0]);
                 }
-            }}
-            console.log(matches);
+            }
             
             
 

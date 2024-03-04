@@ -7,5 +7,5 @@ extract and view data inside APK file in browser client
 - [x] Get Image/Icon
 - [x] Get link/url inside classes.dex
 - [ ] Get resource name and value
-- [ ] Get all permission
+- [x] Get all permission
 - [ ] Custom regex for user to search

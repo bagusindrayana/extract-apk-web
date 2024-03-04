@@ -68,7 +68,12 @@ export class XmlElement {
         }
         let attrName = attr.name.replace(/\s+/g, "").replace(/\u0000/g, "");
         if(attrName == ""){
-          attrName = "undefined"+i.toString();
+          if(this.tag == "uses-permission"){
+            attrName = "name";
+          } else {
+            attrName = "undefined"+i.toString();
+          }
+          
         }
         this.attributes[attrName] = value;
       }
