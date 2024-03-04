@@ -33,7 +33,7 @@ export class ApkLoader {
 
         //loop files
         for (const [key, value] of Object.entries(zipFile.files)) {
-            if (key.endsWith('.png') || key.endsWith('.webp')) {
+            if (key.endsWith('.png') || key.endsWith('.webp') || key.endsWith('.jpg') || key.endsWith('.jpeg') || key.endsWith('.gif') || key.endsWith('.bmp') || key.endsWith('.wbmp') || key.endsWith('.ico') || key.endsWith('.svg')){
                 const imageBuffer = await value.async("arraybuffer");
                 let bl : BufferList = {name: key, buffer: imageBuffer};
                 this.iconImagesBuffers.push(bl);
@@ -65,7 +65,7 @@ export class ApkLoader {
         for (let i = 0; i < this.iconImagesBuffers.length; i++) {
             var r = await new Promise<string>((resolve, reject) => {
                 let arrayBuffer = this.iconImagesBuffers[i];
-                let blob = new Blob([arrayBuffer.buffer], { type: "image/png" });
+                let blob = new Blob([arrayBuffer.buffer], { type: this.getExtensionImage(arrayBuffer.name) });
                 
                 //convert to base64
                 let reader = new FileReader();
@@ -81,6 +81,42 @@ export class ApkLoader {
 
         }
         return iconSourceArray;
+    }
+
+    private getExtensionImage(filename: string) : string {
+        const ext = filename.split('.').pop();
+        switch (ext) {
+            case "png":
+                return "image/png";
+                break;
+            case "webp":
+                return "image/webp";
+                break;
+            case "jpg":
+                return "image/jpeg";
+                break;
+            case "jpeg":
+                return "image/jpeg";
+                break;
+            case "gif":
+                return "image/gif";
+                break;
+            case "bmp":
+                return "image/bmp";
+                break;
+            case "wbmp":
+                return "image/vnd.wap.wbmp";
+                break;
+            case "ico":
+                return "image/vnd.microsoft.icon";
+                break;
+            case "svg":
+                return "image/svg+xml";
+                break;
+            default:
+                return "image/png";
+                break;
+        }
     }
 
     public async getLinks() : Promise<string[]> {
