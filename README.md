@@ -1,6 +1,11 @@
 # Extract APK Data
 extract and view data inside APK file in browser client
 
+## Development
+- `npm install`
+- `npm run dev`
+- open `http://localhost:3000`
+
 ## Todo
 - [x] Load APK
 - [x] Load AndroidManifest.xml
