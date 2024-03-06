@@ -165,6 +165,126 @@
             "description":"Memungkinkan aplikasi untuk menjalankan layanan sebagai proses depan.",
             "misuse":"Mengganggu pengguna dengan notifikasi yang tidak diinginkan, menguras baterai perangkat."
             
+        },
+        {
+            "name":"BLUETOOTH_ADMIN",
+            "description":"Memungkinkan aplikasi menulis pengaturan Bluetooth.",
+            "misuse":"Mengendalikan perangkat Bluetooth lain tanpa izin, mengganggu koneksi Bluetooth pengguna."
+        },
+        {
+            "name":"BLUETOOTH_SCAN",
+            "description":"Memungkinkan aplikasi memulai pemindaian Bluetooth.",
+            "misuse":"Melacak perangkat Bluetooth pengguna, mengganggu koneksi Bluetooth pengguna."
+        },
+        {
+            "name":"BLUETOOTH_CONNECT",
+            "description":"Memungkinkan aplikasi terhubung ke perangkat Bluetooth yang sudah dipasangkan.",
+            "misuse":"Mengendalikan perangkat Bluetooth lain tanpa izin, mengganggu koneksi Bluetooth pengguna."
+        },
+        {
+            "name":"CHANGE_WIFI_STATE",
+            "description":"Memungkinkan aplikasi mengubah koneksi Wi-Fi.",
+            "misuse":"Memutuskan koneksi Wi-Fi pengguna, melacak aktivitas Wi-Fi pengguna."
+        },
+        {
+            "name":"ACCESS_WIFI_STATE",
+            "description":"Memungkinkan aplikasi mengakses informasi tentang jaringan Wi-Fi.",
+            "misuse":"Melacak aktivitas Wi-Fi pengguna, memanipulasi koneksi Wi-Fi pengguna."
+        },
+        {
+            "name":"CHANGE_NETWORK_STATE",
+            "description":"Memungkinkan aplikasi mengubah koneksi jaringan.",
+            "misuse":"Memutuskan koneksi jaringan pengguna, melacak aktivitas jaringan pengguna."
+        },
+        {
+            "name":"CHANGE_WIFI_MULTICAST_STATE",
+            "description":"Memungkinkan aplikasi mengubah status multicast Wi-Fi.",
+            "misuse":"Mengganggu koneksi Wi-Fi pengguna, memanipulasi koneksi Wi-Fi pengguna."
+        },
+        {
+            "name":"READ_SYNC_SETTINGS",
+            "description":"Memungkinkan aplikasi membaca pengaturan sinkronisasi.",
+            "misuse": "Memnugkinkan aplikasi membaca pengaturan sinkronisasi."
+        },
+        {
+            "name":"WRITE_SYNC_SETTINGS",
+            "description":"Memungkinkan aplikasi menulis pengaturan sinkronisasi.",
+            "misuse":"Menonaktifkan sinkronisasi pengguna, memanipulasi pengaturan sinkronisasi pengguna."
+        },
+        {
+            "name":"READ_SYNC_STATS",
+            "description":"Memungkinkan aplikasi membaca statistik sinkronisasi.",
+            "misuse":"Mengakses data sinkronisasi pengguna, melacak aktivitas sinkronisasi pengguna."
+        },
+        {
+            "name":"WRITE_SETTINGS",
+            "description":"Memungkinkan aplikasi menulis pengaturan sistem.",
+            "misuse":"Mengubah pengaturan sistem pengguna, memanipulasi pengaturan sistem pengguna."
+        },
+        {
+            "name":"REQUEST_INSTALL_PACKAGES",
+            "description":"Memungkinkan aplikasi meminta pengguna untuk menginstal paket.",
+            "misuse":"Menginstal aplikasi berbahaya tanpa izin pengguna, memasang malware ke perangkat pengguna."
+        },
+        {
+            "name":"INSTALL_SHORTCUT",
+            "description":"Memungkinkan aplikasi menginstal shortcut di Launcher.",
+            "misuse":"Menginstal shortcut tanpa izin pengguna, mengganggu pengalaman pengguna."
+        },
+        {
+            "name":"UNINSTALL_SHORTCUT",
+            "description":"Memungkinkan aplikasi menghapus shortcut dari Launcher.",
+            "misuse":"Menghapus shortcut tanpa izin pengguna, mengganggu pengalaman pengguna."
+        },
+        {
+            "name":"READ_GSERVICES",
+            "description":"Memungkinkan aplikasi membaca pengaturan layanan Google.",
+            "misuse":"Mengakses data pribadi pengguna, melacak aktivitas pengguna."
+        },
+        {
+            "name":"ACCESS_NOTIFICATION_POLICY",
+            "description":"Memungkinkan aplikasi mengakses kebijakan pemberitahuan.",
+            "misuse":"Membaca pemberitahuan pengguna, mengganggu pengalaman pengguna."
+        },
+        {
+            "name":"BIND_ACCESSIBILITY_SERVICE",
+            "description":"Memungkinkan aplikasi mengikat ke layanan aksesibilitas.",
+            "misuse":"Mengakses data pribadi pengguna, melacak aktivitas pengguna."
+        },
+        {
+            "name":"BIND_DEVICE_ADMIN",
+            "description":"Memungkinkan aplikasi mengikat ke administrator perangkat.",
+            "misuse":"Mengendalikan perangkat pengguna tanpa izin, membatasi akses pengguna."
+        },
+        {
+            "name":"BIND_DREAM_SERVICE",
+            "description":"Memungkinkan aplikasi mengikat ke layanan layar mimpi.",
+            "misuse":"Mengakses data pribadi pengguna, melacak aktivitas pengguna."
+        },
+        {
+            "name":"BIND_INPUT_METHOD",
+            "description":"Memungkinkan aplikasi mengikat ke metode masukan.",
+            "misuse":"Merekam masukan pengguna tanpa izin, mencuri data pribadi pengguna."
+        },
+        {
+            "name":"BIND_NFC_SERVICE",
+            "description":"Memungkinkan aplikasi mengikat ke layanan NFC.",
+            "misuse":"Mengakses data pribadi pengguna, melacak aktivitas pengguna."
+        },
+        {
+            "name":"BIND_NOTIFICATION_LISTENER_SERVICE",
+            "description":"Memungkinkan aplikasi mengikat ke layanan pemberitahuan.",
+            "misuse":"Membaca pemberitahuan pengguna, mengakses data pribadi pengguna."
+        },
+        {
+            "name":"BIND_PRINT_SERVICE",
+            "description":"Memungkinkan aplikasi mengikat ke layanan pencetakan.",
+            "misuse":"Mencetak data pribadi pengguna tanpa izin, mengakses data pribadi pengguna."
+        },
+        {
+            "name":"BIND_QUICK_SETTINGS_TILE",
+            "description":"Memungkinkan aplikasi mengikat ke ubin pengaturan cepat.",
+            "misuse":"Mengakses data pribadi pengguna, melacak aktivitas pengguna."
         }
     ]
 }

@@ -164,6 +164,126 @@
             "name":"FOREGROUND_SERVICE",
             "description":"Allows an app to create foreground services.",
             "misuse":"Running in the background without the user's knowledge, draining the device's battery."
+        },
+        {
+            "name":"BLUETOOTH_ADMIN",
+            "description":"Allows an app to discover and pair Bluetooth devices.",
+            "misuse":"Stealing data from other Bluetooth devices, controlling other Bluetooth devices without permission."
+        },
+        {
+            "name":"BLUETOOTH_SCAN",
+            "description":"Allows an app to initiate a background Bluetooth scan.",
+            "misuse":"Tracking the user's location and movement, draining the device's battery."
+        },
+        {
+            "name":"BLUETOOTH_CONNECT",
+            "description":"Allows an app to connect to paired Bluetooth devices.",
+            "misuse":"Stealing data from paired Bluetooth devices, controlling paired Bluetooth devices without permission."
+        },
+        {
+            "name":"CHANGE_WIFI_STATE",
+            "description":"Allows an app to change Wi-Fi connectivity state.",
+            "misuse":"Disconnecting the user from Wi-Fi networks, tracking the user's Wi-Fi usage."
+        },
+        {
+            "name":"ACCESS_WIFI_STATE",
+            "description":"Allows an app to access information about Wi-Fi networks.",
+            "misuse":"Tracking the user's Wi-Fi usage, manipulating the user's Wi-Fi connection."
+        },
+        {
+            "name":"CHANGE_NETWORK_STATE",
+            "description":"Allows an app to change network connectivity state.",
+            "misuse":"Disconnecting the user from mobile networks, tracking the user's network usage."
+        },
+        {
+            "name":"CHANGE_WIFI_MULTICAST_STATE",
+            "description":"Allows an app to enter Wi-Fi Multicast mode.",
+            "misuse":"Intercepting data from other devices on the same Wi-Fi network, stealing data from other devices."
+        },
+        {
+            "name":"READ_SYNC_SETTINGS",
+            "description":"Allows an app to read the sync settings.",
+            "misuse":"Tracking the user's sync settings, manipulating the user's sync settings."
+        },
+        {
+            "name":"WRITE_SYNC_SETTINGS",
+            "description":"Allows an app to modify the sync settings.",
+            "misuse":"Disabling the user's sync settings, manipulating the user's sync settings."
+        },
+        {
+            "name":"READ_SYNC_STATS",
+            "description":"Allows an app to read the sync stats.",
+            "misuse":"Tracking the user's sync activity, selling the user's sync data."
+        },
+        {
+            "name":"WRITE_SETTINGS",
+            "description":"Allows an app to modify system settings.",
+            "misuse":"Disabling the user's settings, manipulating the user's settings."
+        },
+        {
+            "name":"REQUEST_INSTALL_PACKAGES",
+            "description":"Allows an app to request installation packages.",
+            "misuse":"Installing malware on the user's device, tricking the user into installing unwanted apps."
+        },
+        {
+            "name":"INSTALL_SHORTCUT",
+            "description":"Allows an app to install a shortcut in Launcher.",
+            "misuse":"Installing shortcuts to malicious websites or apps, tricking the user into installing unwanted shortcuts."
+        },
+        {
+            "name":"UNINSTALL_SHORTCUT",
+            "description":"Allows an app to uninstall a shortcut in Launcher.",
+            "misuse":"Removing shortcuts without the user's permission, disrupting the user's experience."
+        },
+        {
+            "name":"READ_GSERVICES",
+            "description":"Allows an app to read Google service configuration data.",
+            "misuse":"Tracking the user's Google service usage, selling the user's Google service data."
+        },
+        {
+            "name":"ACCESS_NOTIFICATION_POLICY",
+            "description":"Allows an app to access Do Not Disturb settings.",
+            "misuse":"Disabling the user's Do Not Disturb settings, manipulating the user's Do Not Disturb settings."
+        },
+        {
+            "name":"BIND_ACCESSIBILITY_SERVICE",
+            "description":"Allows an app to bind to an accessibility service.",
+            "misuse":"Intercepting the user's accessibility events, stealing the user's accessibility data."
+        },
+        {
+            "name":"BIND_DEVICE_ADMIN",
+            "description":"Allows an app to bind to a device admin.",
+            "misuse":"Gaining administrative control over the user's device, locking the user out of their device."
+        },
+        {
+            "name":"BIND_DREAM_SERVICE",
+            "description":"Allows an app to bind to a dream service.",
+            "misuse":"Running in the background without the user's knowledge, draining the device's battery."
+        },
+        {
+            "name":"BIND_INPUT_METHOD",
+            "description":"Allows an app to bind to an input method.",
+            "misuse":"Intercepting the user's keystrokes, stealing the user's input data."
+        },
+        {
+            "name":"BIND_NFC_SERVICE",
+            "description":"Allows an app to bind to an NFC service.",
+            "misuse":"Stealing data from NFC cards, making payments without the user's permission, stealing data from other NFC devices, controlling other NFC devices without permission."
+        },
+        {
+            "name":"BIND_NOTIFICATION_LISTENER_SERVICE",
+            "description":"Allows an app to bind to a notification listener service.",
+            "misuse":"Intercepting the user's notifications, stealing the user's notification data."
+        },
+        {
+            "name":"BIND_PRINT_SERVICE",
+            "description":"Allows an app to bind to a print service.",
+            "misuse":"Stealing the user's print data, manipulating the user's print settings."
+        },
+        {
+            "name":"BIND_QUICK_SETTINGS_TILE",
+            "description":"Allows an app to bind to a quick settings tile.",
+            "misuse":"Manipulating the user's quick settings, disrupting the user's experience."
         }
     ]
 }
