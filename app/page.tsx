@@ -85,7 +85,12 @@ export default function Home() {
       } else if (file.type.toLowerCase() == "application/vnd.android.package-archive" || ext?.toLowerCase() == "apk"){
         setSelectedFile(file);
         setSize(file.size);
-        loadApk(file);
+        try {
+          loadApk(file);
+        } catch (error) {
+          console.error(error);
+          alert("Failed to load APK file");
+        }
       } else {
         alert("Invalid file type, only APK file allowed, your file is " + file.type);
       }
@@ -98,30 +103,46 @@ export default function Home() {
     const apkLoader = new ApkLoader(file);
     await apkLoader.load();
     if (apkLoader.manifest) {
-      const rawXml = apkLoader.manifest.raw.originalXml();
-      var beautifiedXmlText = new XmlBeautify().beautify(rawXml,
-        {
-          indent: "  ",  //indent pattern like white spaces
-          useSelfClosingElement: true //true:use self-closing element when empty element.
-        });
-      setXmlContent(beautifiedXmlText);
-      setPackageName(apkLoader.manifest.package);
+      try {
+        const rawXml = apkLoader.manifest.raw.originalXml();
+        var beautifiedXmlText = new XmlBeautify().beautify(rawXml,
+          {
+            indent: "  ",  //indent pattern like white spaces
+            useSelfClosingElement: true //true:use self-closing element when empty element.
+          });
+        setXmlContent(beautifiedXmlText);
+        setPackageName(apkLoader.manifest.package);
 
-      if (typeof apkLoader.manifest.applicationLabel === 'string') {
-        setLabelName(apkLoader.manifest.applicationLabel);
-      } else {
-        setLabelName(apkLoader.resourceTable?.getResource(apkLoader.manifest.applicationLabel) || '');
+        if (typeof apkLoader.manifest.applicationLabel === 'string') {
+          setLabelName(apkLoader.manifest.applicationLabel);
+        } else {
+          setLabelName(apkLoader.resourceTable?.getResource(apkLoader.manifest.applicationLabel) || '');
+        }
+
+        setVersion(apkLoader.manifest.versionName);
+
+        const listPermissions = Array.from(await apkLoader.manifest.permissions);
+        setPermissionArray(listPermissions);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to load XML data");
+      }
+      
+      try {
+        const images = await apkLoader.getImages();
+        setIconSourceArray(images);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to load image data");
       }
 
-      setVersion(apkLoader.manifest.versionName);
-      const images = await apkLoader.getImages();
-      setIconSourceArray(images);
-      const links = await apkLoader.getLinks();
-      setLinkArray(links);
-
-      const listPermissions = Array.from(await apkLoader.manifest.permissions);
-      setPermissionArray(listPermissions);
-
+      try {
+        const links = await apkLoader.getLinks();
+        setLinkArray(links);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to load link data");
+      }
     } else {
       alert("Failed to load data inside APK file");
     }
