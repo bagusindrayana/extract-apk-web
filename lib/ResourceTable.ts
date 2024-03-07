@@ -1,5 +1,10 @@
 import * as util from './utils';
 
+interface IResourceTable {
+  name: string;
+  value: string;
+}
+
 export class ResourceTable {
   tableType: string;
   headerSize: number;
@@ -50,6 +55,41 @@ export class ResourceTable {
     }
 
     return '';
+  }
+
+  public getAllResources():  IResourceTable[] {
+    const resources: IResourceTable[] = [];
+    let type: Type;
+    let value: string = '';
+    for(let i=0; i<this.package.typeArray.length; i++) {
+      type = this.package.typeArray[i];
+      for(let j=0; j<type.entryArray.length; j++) {
+        value = this.stringPool.stringPool[type.entryArray[j].dataValue];
+        if (value && value.length>0) {
+          resources.push({name: type.entryArray[j].index.toString(16), value: value});
+        }
+      }
+    }
+
+    return resources;
+  }
+
+  public getAllResourceStrings(): string {
+    const resources: string[] = [];
+    let type: Type;
+    let value: string = '';
+    for(let i=0; i<this.package.typeArray.length; i++) {
+      type = this.package.typeArray[i];
+      for(let j=0; j<type.entryArray.length; j++) {
+        value = this.stringPool.stringPool[type.entryArray[j].dataValue];
+        if (value && value.length>0) {
+          resources.push(value);
+        }
+      }
+    }
+
+    return resources.join('\n');
+  
   }
 }
 

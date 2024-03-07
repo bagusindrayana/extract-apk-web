@@ -1,6 +1,6 @@
 'use client'
 import { Button } from "@/components/ui/button"
-import { JSX, SVGProps } from "react"
+import { JSX, SVGProps, useEffect } from "react"
 import { FcAndroidOs } from "react-icons/fc";
 import { useState } from "react";
 import { ApkLoader } from '../lib/ApkLoader';
@@ -10,6 +10,16 @@ import { ApkLoader } from '../lib/ApkLoader';
 // import JSZip from "jszip";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
 const XmlBeautify = require('xml-beautify');
 
 const dataPermission = require("../lib/data/permission_en.json");
@@ -26,6 +36,8 @@ import Image from "next/image";
 
 export default function Home() {
   //make state for file
+  const [apkLoader, setApkLoader] = useState<ApkLoader | null>();
+
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const [packageName, setPackageName] = useState<string>('');
   const [labelName, setLabelName] = useState<string>('');
@@ -36,6 +48,14 @@ export default function Home() {
   const [permissinArray, setPermissionArray] = useState<string[]>([]);
   const [size, setSize] = useState<number>(0);
   const [dragActive, setDragActive] = useState(false);
+
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+
+  useEffect(() => {
+    if(apkLoader) {
+      loadApk();
+    }
+  }, [apkLoader]);
 
 
 
@@ -82,13 +102,15 @@ export default function Home() {
       const ext = file.name.split('.').pop();
       if (file.size > 50 * 1024 * 1024) {
         alert("File too large, max 50mb");
-      } else if (file.type.toLowerCase() == "application/vnd.android.package-archive" || ext?.toLowerCase() == "apk"){
+      } else if (file.type.toLowerCase() == "application/vnd.android.package-archive" || ext?.toLowerCase() == "apk") {
         setSelectedFile(file);
         setSize(file.size);
         try {
-          loadApk(file);
+          const n = new ApkLoader(file);
+          setApkLoader(n);
+          
         } catch (error) {
-          console.error(error);
+          //console.error(error);
           alert("Failed to load APK file");
         }
       } else {
@@ -98,9 +120,12 @@ export default function Home() {
   }
 
   //load apk file with jszip, find AndroidManifest.xml, and parse it
-  const loadApk = async (file: File) => {
-
-    const apkLoader = new ApkLoader(file);
+  const loadApk = async () => {
+    
+    if (!apkLoader) {
+      alert("Failed to load APK file");
+      return;
+    }
     await apkLoader.load();
     if (apkLoader.manifest) {
       try {
@@ -124,15 +149,15 @@ export default function Home() {
         const listPermissions = Array.from(await apkLoader.manifest.permissions);
         setPermissionArray(listPermissions);
       } catch (error) {
-        console.error(error);
+        //console.error(error);
         alert("Failed to load XML data");
       }
-      
+
       try {
         const images = await apkLoader.getImages();
         setIconSourceArray(images);
       } catch (error) {
-        console.error(error);
+        //console.error(error);
         alert("Failed to load image data");
       }
 
@@ -140,15 +165,58 @@ export default function Home() {
         const links = await apkLoader.getLinks();
         setLinkArray(links);
       } catch (error) {
-        console.error(error);
+        //console.error(error);
         alert("Failed to load link data");
       }
+
     } else {
       alert("Failed to load data inside APK file");
     }
-
-
   };
+
+    const stringToRegex = (str:string) => {
+      const mainMatch = str.match(/\/(.+)\/.*/);
+      const main = mainMatch ? mainMatch[1] : '';
+      return main
+  }
+
+  //custom search
+  const handleSearch =  async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    //search input
+    const search = (document.getElementById('search-input') as HTMLInputElement).value;
+    if(search === "") {
+      alert("Search input is empty");
+      return;
+    };
+    //regex search
+    const useRegex = (document.getElementById('regex-search') as HTMLButtonElement).getAttribute('aria-checked');
+    //console.log(useRegex);
+    if (useRegex == "true") {
+      //validate regex
+      try {
+        const r = new RegExp(search, "gm");
+        //console.log(r);
+        const results = await apkLoader?.customSearch(r);
+        //console.log(results);
+        if(results){
+          setSearchResults(results);
+        }
+      } catch (e) {
+        //console.error(e);
+        alert("Invalid regex pattern");
+        return;
+      }
+
+    } else {
+      const results = await apkLoader?.customSearch(search);
+      //console.log(results);
+      if(results){
+        setSearchResults(results);
+      }
+    }
+
+  }
 
   return (
     <div className="w-full py-12 height-content">
@@ -226,6 +294,7 @@ export default function Home() {
                       <TabsTrigger value="androidmanifest">AndroidManifest.xml</TabsTrigger>
                       <TabsTrigger value="icon_image">Icon & Image</TabsTrigger>
                       <TabsTrigger value="link_url">Link & Url</TabsTrigger>
+                      <TabsTrigger value="custom_search">Custom Search</TabsTrigger>
                     </TabsList>
                     <TabsContent value="permission">
                       <div className="grid gap-2 overflow-x-auto">
@@ -275,6 +344,40 @@ export default function Home() {
                           linkArray.map((link, index) => {
                             return (
                               <a key={index} href={link} target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400">{link}</a>
+                            )
+                          })
+                        }
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="custom_search" className="min-h-56">
+                      <Card className="w-full mb-4">
+                        <CardHeader>
+                          <CardTitle>Custom Search Through Dex and Resources</CardTitle>
+                          <div className="flex items-center space-x-2">
+                            <Switch id="regex-search" />
+                            <label htmlFor="regex-search">Regex</label>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <form onSubmit={handleSearch}>
+                            <div className="grid w-full items-center gap-4">
+                              <div className="flex w-full items-center space-x-2">
+                                <Input type="text" id="search-input" placeholder="Search.." />
+                                <Button type="submit">Search</Button>
+                              </div>
+
+                            </div>
+                          </form>
+                        </CardContent>
+
+                      </Card>
+                      <div className="grid gap-2 w-full overflow-x-auto">
+                        {
+                          searchResults.map((result, index) => {
+                            return (
+                              <div key={index} className="p-2 border rounded-lg border-gray-200 dark:border-gray-800">
+                                {result}
+                              </div>
                             )
                           })
                         }

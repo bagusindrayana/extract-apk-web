@@ -124,7 +124,57 @@ export class ApkLoader {
     }
 
     public async getLinks() : Promise<string[]> {
-        let linksArray: string[] = [];
+        //regex find all /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
+        const rex = new RegExp(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g);
+        // let linksArray: string[] = [];
+        // for (let i = 0; i < this.classessBuffers.length; i++) {
+        //     var r = await new Promise<string>((resolve, reject) => {
+        //         let arrayBuffer = this.classessBuffers[i];
+        //         let blob = new Blob([arrayBuffer.buffer], { type: "text/plain" });
+        //         let reader = new FileReader();
+        //         reader.readAsText(blob);
+        //         reader.onloadend = function() {
+        //             let base64data = reader.result;
+        //             resolve(base64data as string);
+        //         }
+        //     });
+            
+        //     const matches = r.matchAll(rex);
+
+        //     if(matches){
+        //         for (const match of matches) {
+        //             linksArray.push(match[0]);
+        //         }
+        //     }
+            
+            
+
+        // }
+        // const textResources : string | undefined = await this.resourceTable?.getAllResourceStrings();
+        // if(textResources){
+        //     const matches = textResources.matchAll(rex);
+        //     if(matches){
+        //         for (const match of matches) {
+        //             linksArray.push(match[0]);
+        //         }
+        //     }
+        // }
+
+        return await this.customSearch(rex);
+    }
+
+    public async customSearch(search:RegExp|string) : Promise<string[]> {
+        let stringArray: string[] = [];
+        let rex = new RegExp("");
+        if(search instanceof RegExp){
+            rex = search;
+        } else {
+            //search but include 10 chracter before and 50 chracter after
+            rex = new RegExp(`.{0,10}${search}.{0,50}`, "g");
+            
+           
+        }
+        //console.log(rex);
         for (let i = 0; i < this.classessBuffers.length; i++) {
             var r = await new Promise<string>((resolve, reject) => {
                 let arrayBuffer = this.classessBuffers[i];
@@ -136,20 +186,26 @@ export class ApkLoader {
                     resolve(base64data as string);
                 }
             });
-            //regex find all /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
-            const rex = new RegExp(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g);
+            
             const matches = r.matchAll(rex);
 
             if(matches){
                 for (const match of matches) {
-                    linksArray.push(match[0]);
+                    stringArray.push(match[0]);
                 }
             }
-            
-            
 
         }
-        return linksArray;
+        const textResources : string | undefined = await this.resourceTable?.getAllResourceStrings();
+        if(textResources){
+            const matches = textResources.matchAll(rex);
+            if(matches){
+                for (const match of matches) {
+                    stringArray.push(match[0]);
+                }
+            }
+        }
+        return stringArray;
     }
 
 }
