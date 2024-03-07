@@ -14,6 +14,6 @@ extract and view data inside APK file in browser client
 - [ ] Get resource name and value
 - [x] Get all permission
 - [ ] update json data permission description
-- [ ] custom regex for user to search
+- [x] custom regex for user to search
 - [ ] dark mode
 - [ ] refactor & clean code
