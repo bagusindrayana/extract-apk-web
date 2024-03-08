@@ -48,8 +48,15 @@ export default function Home() {
   const [permissinArray, setPermissionArray] = useState<string[]>([]);
   const [size, setSize] = useState<number>(0);
   const [dragActive, setDragActive] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [searchResults, setSearchResults] = useState<string[]>([]);
+
+  const exampleApks = [
+    "Facebook Lite_397.0.0.11.117_Apkpure.apk",
+    "Note_4.1.0_Apkpure.apk",
+    "RAR_6.23.build119_Apkpure.apk"
+  ]
 
   useEffect(() => {
     if(apkLoader) {
@@ -97,6 +104,19 @@ export default function Home() {
     handleFile(file);
   };
 
+  const loadRemoteFile = async (url: string) => {
+    setLoading(true);
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const file = new File([blob], url, { type: "application/vnd.android.package-archive" });
+      handleFile(file);
+    } catch (error) {
+      //console.error(error);
+      alert("Failed to load remote file");
+    }
+  }
+
   const handleFile = function (file: File) {
     if (file) {
       const ext = file.name.split('.').pop();
@@ -108,7 +128,6 @@ export default function Home() {
         try {
           const n = new ApkLoader(file);
           setApkLoader(n);
-          
         } catch (error) {
           //console.error(error);
           alert("Failed to load APK file");
@@ -117,6 +136,7 @@ export default function Home() {
         alert("Invalid file type, only APK file allowed, your file is " + file.type);
       }
     }
+    
   }
 
   //load apk file with jszip, find AndroidManifest.xml, and parse it
@@ -126,6 +146,9 @@ export default function Home() {
       alert("Failed to load APK file");
       return;
     }
+    setLoading(true);
+    //await 1 seconds
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await apkLoader.load();
     if (apkLoader.manifest) {
       try {
@@ -172,13 +195,8 @@ export default function Home() {
     } else {
       alert("Failed to load data inside APK file");
     }
+    setLoading(false);
   };
-
-    const stringToRegex = (str:string) => {
-      const mainMatch = str.match(/\/(.+)\/.*/);
-      const main = mainMatch ? mainMatch[1] : '';
-      return main
-  }
 
   //custom search
   const handleSearch =  async (e: React.FormEvent<HTMLFormElement>) => {
@@ -230,6 +248,22 @@ export default function Home() {
             please be aware of the file size,max file size is 50MB, but recomended file size is less than 20MB or your browser will freeze or crash.
           </p>
         </div>
+
+        <div className="grid gap-2">
+          <h3 className="text-lg font-bold">Example APK</h3>
+          <div className="grid gap-2 md:grid-cols-3">
+            {
+              exampleApks.map((apk, index) => {
+                return (
+                  <Button key={index} size="sm" onClick={() => {
+                    loadRemoteFile(`/examples/${apk}`);
+                  }}>{apk}</Button>
+                )
+              })
+            }
+          </div>
+        </div>
+
         <div className="grid gap-4">
           <label onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} className="border-2 border-dashed rounded-lg grid h-[200px] items-center w-full border-gray-200 dark:border-gray-800">
             <input onChange={handleFileChange} accept="application/vnd.android.package-archive,.apk" type="file" className="cursor-pointer relative hidden opacity-0 w-full h-full p-20 z-50" />
@@ -259,6 +293,14 @@ export default function Home() {
 
         </div>
         <div className="border rounded-lg border-gray-200 dark:border-gray-800">
+          {
+            loading ? (
+              <div className="flex flex-col justify-center items-center m-4 w-full">
+                <div className="loader"></div>
+                <p>Loading....</p>
+              </div>
+            ) : ("")
+          }
 
           {
             xmlContent === '' ? (
