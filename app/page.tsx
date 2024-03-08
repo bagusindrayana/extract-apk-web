@@ -13,8 +13,6 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -42,11 +40,13 @@ export default function Home() {
   const [packageName, setPackageName] = useState<string>('');
   const [labelName, setLabelName] = useState<string>('');
   const [version, setVersion] = useState<string>('');
+  const [size, setSize] = useState<number>(0);
+
   const [xmlContent, setXmlContent] = useState<string>('');
   const [iconSourceArray, setIconSourceArray] = useState<ImageIcon[]>([]);
   const [linkArray, setLinkArray] = useState<string[]>([]);
-  const [permissinArray, setPermissionArray] = useState<string[]>([]);
-  const [size, setSize] = useState<number>(0);
+  const [permissionArray, setPermissionArray] = useState<string[]>([]);
+  
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -107,7 +107,11 @@ export default function Home() {
   const loadRemoteFile = async (url: string) => {
     setLoading(true);
     try {
+      url = url.replace(".apk",".archive")
       const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Failed to load remote file");
+      }
       const blob = await response.blob();
       const file = new File([blob], url, { type: "application/vnd.android.package-archive" });
       handleFile(file);
@@ -341,7 +345,7 @@ export default function Home() {
                     <TabsContent value="permission">
                       <div className="grid gap-2 overflow-x-auto">
                         {
-                          permissinArray.map((permission, index) => {
+                          permissionArray.map((permission, index) => {
                             const permissionData = findPermission(permission);
                             return (
                               <div key={index} className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 p-2 border rounded-lg border-gray-200 dark:border-gray-800">

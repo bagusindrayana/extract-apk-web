@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { FaGithub } from "react-icons/fa";
+import NavMenu from "@/components/navmenu";
 import "./globals.css";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,24 +14,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <body className={inter.className}>
 
-        {/* full width navbar with tailwind */}
-        
-        <div className="flex justify-between items-center bg-gray-800 p-4">
-          <div className="flex items-center">
-            
-            <h1 className="text-2xl text-white">Extract APK Data</h1>
-
-          </div>
-          <div>
-            <a href="https://github.com/bagusindrayana/extract-apk-web">
-              <FaGithub className="text-white text-2xl" />
-            </a>
-          </div>
-         </div>
+        <NavMenu></NavMenu>
 
         {children}
 
