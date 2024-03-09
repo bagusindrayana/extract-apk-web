@@ -44,7 +44,7 @@ export default function Home() {
   const [iconSourceArray, setIconSourceArray] = useState<ImageIcon[]>([]);
   const [linkArray, setLinkArray] = useState<string[]>([]);
   const [permissionArray, setPermissionArray] = useState<string[]>([]);
-  
+
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -57,7 +57,7 @@ export default function Home() {
   ]
 
   useEffect(() => {
-    if(apkLoader) {
+    if (apkLoader) {
       loadApk();
     }
   }, [apkLoader]);
@@ -66,7 +66,7 @@ export default function Home() {
   const scrollToId = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
-}
+  }
 
   function findPermission(name: string) {
     if (name == "" || name == null || name == undefined) {
@@ -109,7 +109,7 @@ export default function Home() {
   const loadRemoteFile = async (url: string) => {
     setLoading(true);
     try {
-      url = url.replace(".apk",".archive")
+      url = url.replace(".apk", ".archive")
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Failed to load remote file");
@@ -142,12 +142,12 @@ export default function Home() {
         alert("Invalid file type, only APK file allowed, your file is " + file.type);
       }
     }
-    
+
   }
 
   //load apk file with jszip, find AndroidManifest.xml, and parse it
   const loadApk = async () => {
-    
+
     if (!apkLoader) {
       alert("Failed to load APK file");
       return;
@@ -158,6 +158,7 @@ export default function Home() {
     await apkLoader.load();
     if (apkLoader.manifest) {
       try {
+
         const rawXml = apkLoader.manifest.raw.originalXml();
         var beautifiedXmlText = new XmlBeautify().beautify(rawXml,
           {
@@ -181,36 +182,39 @@ export default function Home() {
         //console.error(error);
         alert("Failed to load XML data");
       }
-
-      try {
-        const images = await apkLoader.getImages();
-        setIconSourceArray(images);
-      } catch (error) {
-        //console.error(error);
-        alert("Failed to load image data");
-      }
-
-      try {
-        const links = await apkLoader.getLinks();
-        setLinkArray(links);
-      } catch (error) {
-        //console.error(error);
-        alert("Failed to load link data");
-      }
-
     } else {
-      alert("Failed to load data inside APK file");
+      setPackageName('');
+      setLabelName('');
+      setVersion('');
+      setXmlContent('');
     }
+
+    try {
+      const images = await apkLoader.getImages();
+      setIconSourceArray(images);
+    } catch (error) {
+      //console.error(error);
+      alert("Failed to load image data");
+    }
+
+    try {
+      const links = await apkLoader.getLinks();
+      setLinkArray(links);
+    } catch (error) {
+      //console.error(error);
+      alert("Failed to load link data");
+    }
+
     setLoading(false);
     scrollToId("extract-menu");
   };
 
   //custom search
-  const handleSearch =  async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //search input
     const search = (document.getElementById('search-input') as HTMLInputElement).value;
-    if(search === "") {
+    if (search === "") {
       alert("Search input is empty");
       return;
     };
@@ -224,7 +228,7 @@ export default function Home() {
         //console.log(r);
         const results = await apkLoader?.customSearch(r);
         //console.log(results);
-        if(results){
+        if (results) {
           setSearchResults(results);
         }
       } catch (e) {
@@ -236,7 +240,7 @@ export default function Home() {
     } else {
       const results = await apkLoader?.customSearch(search);
       //console.log(results);
-      if(results){
+      if (results) {
         setSearchResults(results);
       }
     }
@@ -336,108 +340,120 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="w-100 p-4">
-                  <Tabs defaultValue="permission" id="extract-menu">
-                    <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto" >
-                      <TabsTrigger value="permission">Permission</TabsTrigger>
-                      <TabsTrigger value="androidmanifest">AndroidManifest.xml</TabsTrigger>
-                      <TabsTrigger value="icon_image">Icon & Image</TabsTrigger>
-                      <TabsTrigger value="link_url">Link & Url</TabsTrigger>
-                      <TabsTrigger value="custom_search">Custom Search</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="permission">
-                      <div className="grid gap-2 overflow-x-auto">
-                        {
-                          permissionArray.map((permission, index) => {
-                            const permissionData = findPermission(permission);
-                            return (
-                              <div key={index} className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 p-2 border rounded-lg border-gray-200 dark:border-gray-800">
-                                <div className="flex flex-col mb-1">
-                                  <div className="font-bold">Name</div>
-                                  <div className="text-wrap">{permissionData.name}</div>
-                                </div>
-                                <div className="flex flex-col">
-                                  <div className="font-bold">Description</div>
-                                  <div className="text-wrap">{permissionData.description}</div>
-                                  <div className="font-bold">Misuse</div>
-                                  <div className="text-wrap">{permissionData.misuse}</div>
-                                </div>
-                              </div>
-                            )
-                          })
-                        }
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="androidmanifest">
-                      <SyntaxHighlighter language="xml" style={docco}>
-                        {xmlContent}
-                      </SyntaxHighlighter>
-                    </TabsContent>
-                    <TabsContent value="icon_image">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {
-                          iconSourceArray.map((icon, index) => {
-                            return (
-                              <div key={index} className="flex flex-col items-center justify-center w-full p-2">
-                                <Image src={icon.source} alt="icon" height={48} width={48} className="w-12 h-12" />
-                                <small className="text-center">{icon.name}</small>
-                              </div>
-                            )
-                          })
-                        }
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="link_url">
-                      <div className="grid gap-2 w-full overflow-x-auto">
-                        {
-                          linkArray.map((link, index) => {
-                            return (
-                              <a key={index} href={link} target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400">{link}</a>
-                            )
-                          })
-                        }
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="custom_search" className="min-h-56">
-                      <Card className="w-full mb-4">
-                        <CardHeader>
-                          <CardTitle>Custom Search Through Dex and Resources</CardTitle>
-                          <div className="flex items-center space-x-2">
-                            <Switch id="regex-search" />
-                            <label htmlFor="regex-search">Regex</label>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <form onSubmit={handleSearch}>
-                            <div className="grid w-full items-center gap-4">
-                              <div className="flex w-full items-center space-x-2">
-                                <Input type="text" id="search-input" placeholder="Search.." />
-                                <Button type="submit">Search</Button>
-                              </div>
 
-                            </div>
-                          </form>
-                        </CardContent>
-
-                      </Card>
-                      <div className="grid gap-2 w-full overflow-x-auto">
-                        {
-                          searchResults.map((result, index) => {
-                            return (
-                              <div key={index} className="p-2 border rounded-lg border-gray-200 dark:border-gray-800">
-                                {result}
-                              </div>
-                            )
-                          })
-                        }
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </div>
 
               </>
             )
           }
+
+          {(apkLoader != null && apkLoader.loaded) && (
+            <>
+              <div className="w-100 p-4">
+                <Tabs defaultValue="permission" id="extract-menu">
+                  <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto" >
+                    <TabsTrigger value="permission">Permission</TabsTrigger>
+                    <TabsTrigger value="androidmanifest">AndroidManifest.xml</TabsTrigger>
+                    <TabsTrigger value="icon_image">Icon & Image</TabsTrigger>
+                    <TabsTrigger value="link_url">Link & Url</TabsTrigger>
+                    <TabsTrigger value="custom_search">Custom Search</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="permission">
+                    <div className="grid gap-2 overflow-x-auto">
+                      {
+                        permissionArray.length === 0 ? (
+                          <div className="w-full p-2 border rounded-lg border-gray-200 dark:border-gray-800">
+                            No permission found
+                          </div>
+                        ) : ("")
+                      }
+                      {
+                        permissionArray.map((permission, index) => {
+                          const permissionData = findPermission(permission);
+                          return (
+                            <div key={index} className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 p-2 border rounded-lg border-gray-200 dark:border-gray-800">
+                              <div className="flex flex-col mb-1">
+                                <div className="font-bold">Name</div>
+                                <div className="text-wrap">{permissionData.name}</div>
+                              </div>
+                              <div className="flex flex-col">
+                                <div className="font-bold">Description</div>
+                                <div className="text-wrap">{permissionData.description}</div>
+                                <div className="font-bold">Misuse</div>
+                                <div className="text-wrap">{permissionData.misuse}</div>
+                              </div>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="androidmanifest">
+                    <SyntaxHighlighter language="xml" style={docco}>
+                      {xmlContent}
+                    </SyntaxHighlighter>
+                  </TabsContent>
+                  <TabsContent value="icon_image">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {
+                        iconSourceArray.map((icon, index) => {
+                          return (
+                            <div key={index} className="flex flex-col items-center justify-center w-full p-2">
+                              <Image src={icon.source} alt="icon" height={48} width={48} className="w-12 h-12" />
+                              <small className="text-center">{icon.name}</small>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="link_url">
+                    <div className="grid gap-2 w-full overflow-x-auto">
+                      {
+                        linkArray.map((link, index) => {
+                          return (
+                            <a key={index} href={link} target="_blank" rel="noreferrer" className="text-blue-500 dark:text-blue-400">{link}</a>
+                          )
+                        })
+                      }
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="custom_search" className="min-h-56">
+                    <Card className="w-full mb-4">
+                      <CardHeader>
+                        <CardTitle>Custom Search Through Dex and Resources</CardTitle>
+                        <div className="flex items-center space-x-2">
+                          <Switch id="regex-search" />
+                          <label htmlFor="regex-search">Regex</label>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <form onSubmit={handleSearch}>
+                          <div className="grid w-full items-center gap-4">
+                            <div className="flex w-full items-center space-x-2">
+                              <Input type="text" id="search-input" placeholder="Search.." />
+                              <Button type="submit">Search</Button>
+                            </div>
+
+                          </div>
+                        </form>
+                      </CardContent>
+
+                    </Card>
+                    <div className="grid gap-2 w-full overflow-x-auto">
+                      {
+                        searchResults.map((result, index) => {
+                          return (
+                            <div key={index} className="p-2 border rounded-lg border-gray-200 dark:border-gray-800">
+                              {result}
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div></>
+          )}
 
 
         </div>

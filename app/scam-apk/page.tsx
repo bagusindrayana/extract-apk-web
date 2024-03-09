@@ -37,6 +37,8 @@ export default function ScamApkPage() {
 
     const exampleApks = [
         "UNDANGAN PERNIKAHAN.apk",
+        "surat tilang elektronik.apk",
+        "PDF_ꜱᴜʀᴀᴛ ᴩᴀɴɢɢɪʟᴀɴ.apk"
     ]
 
     useEffect(() => {
@@ -135,21 +137,23 @@ export default function ScamApkPage() {
                 alert("Failed to load XML data");
             }
 
-
-
-            try {
-                const links = await apkLoader.getLinks();
-                // setLinkArray(links);
-                linkArray = links;
-            } catch (error) {
-                //console.error(error);
-                alert("Failed to load link data");
-            }
-            await findBotToken();
-
         } else {
-            alert("Failed to load data inside APK file");
+            setPackageName('');
+            setLabelName('');
+            setVersion('');
         }
+
+        try {
+            const links = await apkLoader.getLinks();
+            // setLinkArray(links);
+            linkArray = links;
+        } catch (error) {
+            //console.error(error);
+            alert("Failed to load link data");
+        }
+        await findBotToken();
+
+
         setLoading(false);
     };
 
@@ -180,7 +184,6 @@ export default function ScamApkPage() {
                     const searchParams = new URLSearchParams(url.search);
                     chatId = searchParams.get("chat_id") || "";
                 }
-                console.log(chatId);
                 return {
                     botToken: token,
                     chatId: chatId
@@ -286,45 +289,48 @@ export default function ScamApkPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <hr />
-                                <div className="w-full my-3 p-4">
-                                    <h4 className="font-bold text-2xl">Bot Token</h4>
-                                    {
-                                        listBotToken.length > 0 ? (
-                                            <Accordion type="single" collapsible>
-                                                {
-                                                    listBotToken.map((data, index) => {
-                                                        return (
-                                                            <AccordionItem value={"item-" + index.toString()} key={index}>
-                                                                <AccordionTrigger className="overflow-x-auto">
-                                                                    <p className="underline text-blue-500">{data.botToken}</p>
-                                                                </AccordionTrigger>
-                                                                <AccordionContent>
-                                                                    <div className="flex flex-col">
-                                                                        <GetInformationButton BotToken={data.botToken} ChatId={data.chatId}></GetInformationButton>
-                                                                        <SpamBotButton BotToken={data.botToken} ChatId={data.chatId}></SpamBotButton>
-                                                                        <LogoutBotButton BotToken={data.botToken}></LogoutBotButton>
-                                                                    </div>
-                                                                </AccordionContent>
-                                                            </AccordionItem>
-                                                        )
-                                                    })
-                                                }
 
-                                            </Accordion>
-                                        ) : (
-                                            <div className="grid gap-2 p-4">
-                                                <h3 className="text-lg font-bold">Bot Token</h3>
-                                                <p>Bot token not found</p>
-                                            </div>
-                                        )
-                                    }
-                                </div>
 
                             </>
 
                         ) : ("")
                     }
+                    {(apkLoader != null && apkLoader.loaded) && (<>
+                        <hr />
+                        <div className="w-full my-3 p-4">
+                            <h4 className="font-bold text-2xl">Bot Token</h4>
+                            {
+                                listBotToken.length > 0 ? (
+                                    <Accordion type="single" collapsible>
+                                        {
+                                            listBotToken.map((data, index) => {
+                                                return (
+                                                    <AccordionItem value={"item-" + index.toString()} key={index}>
+                                                        <AccordionTrigger className="overflow-x-auto">
+                                                            <p className="underline text-blue-500">{data.botToken}</p>
+                                                        </AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <div className="flex flex-col">
+                                                                <GetInformationButton BotToken={data.botToken} ChatId={data.chatId}></GetInformationButton>
+                                                                <SpamBotButton BotToken={data.botToken} ChatId={data.chatId}></SpamBotButton>
+                                                                <LogoutBotButton BotToken={data.botToken}></LogoutBotButton>
+                                                            </div>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                )
+                                            })
+                                        }
+
+                                    </Accordion>
+                                ) : (
+                                    <div className="grid gap-2 p-4">
+                                        <h3 className="text-lg font-bold">Bot Token</h3>
+                                        <p>Bot token not found</p>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </>)}
 
 
                 </div>

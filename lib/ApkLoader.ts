@@ -22,11 +22,14 @@ export class ApkLoader {
     iconImagesBuffers : BufferList[] = [];
     classessBuffers : BufferList[] = [];
 
+    loaded : boolean = false;
+
     constructor(file: File) {
         this.file = file;
     }
 
     public async load() {
+        this.loaded = false;
         const zip = new JSZip();
         const buffer = await this.file.arrayBuffer();
         const zipFile = await zip.loadAsync(buffer);
@@ -48,8 +51,12 @@ export class ApkLoader {
         if(manifestBinary !== undefined) {
             const manifestBuffer = await manifestBinary?.async("arraybuffer");
             if (manifestBuffer) {
-                const xmlElement = new Manifest(new XmlElement(new Source(manifestBuffer)));
-                this.manifest = xmlElement;
+                try {
+                    const xmlElement = new Manifest(new XmlElement(new Source(manifestBuffer)));
+                    this.manifest = xmlElement;
+                } catch (error) {
+                    alert("Error parsing AndroidManifest.xml");
+                }
             }
         }
         
@@ -58,10 +65,15 @@ export class ApkLoader {
         if(resourcesBinary !== undefined){
             const resourcesBuffer = await resourcesBinary?.async("arraybuffer");
             if (resourcesBuffer !== undefined) {
-                var r = new ResourceTable(resourcesBuffer);
-                this.resourceTable = r;
+                try {
+                    var r = new ResourceTable(resourcesBuffer);
+                    this.resourceTable = r;
+                } catch (error) {
+                    alert("Error parsing resources.arsc");
+                }
             }
         }
+        this.loaded = true;
     }
 
     public async getImages() : Promise<ImageIcon[]> {
