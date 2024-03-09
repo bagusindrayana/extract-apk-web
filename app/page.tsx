@@ -4,10 +4,8 @@ import { JSX, SVGProps, useEffect } from "react"
 import { FcAndroidOs } from "react-icons/fc";
 import { useState } from "react";
 import { ApkLoader } from '../lib/ApkLoader';
-// import { TagAttribute } from '../lib/AndroidManifest';
-// import { Source } from "../lib/source";
-// import { XmlElement } from "../lib/xml";
-// import JSZip from "jszip";
+import { FiUpload } from "react-icons/fi";
+
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
@@ -274,7 +272,7 @@ export default function Home() {
             <div className="flex flex-col gap-1.5 items-center justify-center text-center">
               {(selectedFile === null || selectedFile === undefined) ? (
                 <>
-                  <UploadIcon className="w-10 h-10" />
+                  <FiUpload className="w-10 h-10" />
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Drag and drop your file here or
                     <Button size="sm" className="mx-2" onClick={
@@ -443,23 +441,3 @@ export default function Home() {
   )
 }
 
-function UploadIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="17 8 12 3 7 8" />
-      <line x1="12" x2="12" y1="3" y2="15" />
-    </svg>
-  )
-}

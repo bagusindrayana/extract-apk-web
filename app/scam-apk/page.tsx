@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ApkLoader } from '../../lib/ApkLoader';
 import { ImageIcon } from "@/lib/AndroidImages";
 import { Button } from "@/components/ui/button"
-import { FaFileUpload } from "react-icons/fa";
+import { FiUpload } from "react-icons/fi";
 import { FcAndroidOs } from "react-icons/fc";
 import GetInformationButton from "@/components/scam-apk/GetInformationButton";
 import {
@@ -228,7 +228,7 @@ export default function ScamApkPage() {
                         <div className="flex flex-col gap-1.5 items-center justify-center text-center">
                             {(selectedFile === null || selectedFile === undefined) ? (
                                 <>
-                                    <FaFileUpload className="w-10 h-10" />
+                                    <FiUpload className="w-10 h-10" />
                                     <p className="text-sm text-gray-500 dark:text-gray-400">
                                         Drag and drop your file here or
                                         <Button size="sm" className="mx-2" onClick={

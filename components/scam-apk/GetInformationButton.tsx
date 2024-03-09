@@ -1,6 +1,6 @@
 'use client'
 
-import {  useState } from "react";
+import {  useState,useEffect } from "react";
 import { Button } from "@/components/ui/button"
 import {
     Table,
@@ -15,10 +15,14 @@ import RequestData from "@/components/scam-apk/RequestData"
 
 //make GetInformationButton component with props BotToken
 export default function GetInformationButton({ BotToken, ChatId }: { BotToken: string, ChatId?: string }) {
-    const [request, setRequest] = useState([
+    const [request, setRequest] = useState<RequestData[]>([])
+
+    useEffect(() => {
+    setRequest([
         new RequestData(`https://api.telegram.org/${BotToken}/getMe`, "Bot Information"),
         new RequestData(`https://api.telegram.org/${BotToken}/getChat?chat_id=${ChatId}`, "Chat Information"),
-    ])
+    ]);
+    },[BotToken,ChatId])
 
     //smooth scroll to the bottom of the page
     const scrollToBottom = () => {
@@ -78,7 +82,7 @@ export default function GetInformationButton({ BotToken, ChatId }: { BotToken: s
 
     return (
         <>
-            <div className="flex flex-col my-1">
+            <div className="flex flex-col">
                 <Button onClick={getInformation} >
                     Get Information
                 </Button>
@@ -93,6 +97,12 @@ export default function GetInformationButton({ BotToken, ChatId }: { BotToken: s
                                 </div>
                             )}
                             {(req.data && req.data.result) && generateTableFromJson(req.data.result, req.Title)}
+                            {(req.data && req.data.error) && (
+                                <div className="p-2">
+                                    <p className="font-bold text-xl">{req.Title}</p>
+                                    <p>{req.data.error}</p>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
