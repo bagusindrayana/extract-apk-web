@@ -17,3 +17,9 @@ extract and view data inside APK file in browser client
 - [x] custom regex for user to search
 - [ ] dark mode
 - [ ] refactor & clean code
+
+## Specific Features
+there some scammer that disguise their scamming apk to look like wedding invitation, invoice, receipt, etc. that apk actually SMSthief and send SMS to telegram bot. go to `/scam-apk` to get information about the bot and you can spam the bot to reach limit or force the bot to logout.
+- [x] get information about telegram bot and user whoe receive the message
+- [x] spam the bot
+- [x] force the bot to logout
