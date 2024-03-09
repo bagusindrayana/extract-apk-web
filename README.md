@@ -15,7 +15,7 @@ extract and view data inside APK file in browser client
 - [x] Get all permission
 - [ ] update json data permission description
 - [x] custom regex for user to search
-- [ ] dark mode
+- [x] change theme (dark/light)
 - [ ] refactor & clean code
 
 ## Specific Features
@@ -24,3 +24,7 @@ there some scammer that disguise their scamming apk to look like wedding invitat
 - [x] get information about telegram bot and user whoe receive the message
 - [x] spam the bot
 - [x] force the bot to logout
+
+## Support
+
+<a href="https://trakteer.id/bagood/tip" target="_blank"><img id="wse-buttons-preview" src="https://cdn.trakteer.id/images/embed/trbtn-red-1.png" height="40" style="border:0px;height:40px;" alt="Trakteer Saya"></a>
