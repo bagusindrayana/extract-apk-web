@@ -296,7 +296,9 @@ export default function ScamApkPage() {
                                                     listBotToken.map((data, index) => {
                                                         return (
                                                             <AccordionItem value={"item-" + index.toString()} key={index}>
-                                                                <AccordionTrigger><span className="underline text-blue-500">{data.botToken}</span></AccordionTrigger>
+                                                                <AccordionTrigger className="overflow-x-auto">
+                                                                    <p className="underline text-blue-500">{data.botToken}</p>
+                                                                </AccordionTrigger>
                                                                 <AccordionContent>
                                                                     <div className="flex flex-col">
                                                                         <GetInformationButton BotToken={data.botToken} ChatId={data.chatId}></GetInformationButton>

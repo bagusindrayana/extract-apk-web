@@ -138,7 +138,7 @@ export default function SpamBotButton({ BotToken, ChatId }: { BotToken: string, 
                 <DialogTrigger asChild>
                     <Button >Spam Bot</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-screen-md">
+                <DialogContent className="md:max-w-screen-md">
                     <DialogHeader>
                         <DialogTitle>Spam Telegram Bot</DialogTitle>
                         <DialogDescription>
