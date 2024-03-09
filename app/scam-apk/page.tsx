@@ -12,6 +12,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import SpamBotButton from "@/components/scam-apk/SpamBotButton";
 
 
 interface BotTokenData {
@@ -253,7 +254,7 @@ export default function ScamApkPage() {
                 <div className="border rounded-lg border-gray-200 dark:border-gray-800">
                     {
                         loading ? (
-                            <div className="flex flex-col justify-center items-center m-4 w-full">
+                            <div className="flex flex-col justify-center items-center m-4 w-full text-center">
                                 <div className="loader"></div>
                                 <p>Loading....</p>
                             </div>
@@ -298,11 +299,7 @@ export default function ScamApkPage() {
                                                                 <AccordionContent>
                                                                     <div className="flex flex-col">
                                                                         <GetInformationButton BotToken={data.botToken} ChatId={data.chatId}></GetInformationButton>
-                                                                        <Button className="my-1" onClick={() => {
-                                                                            alert("Under Development")
-                                                                        }} >
-                                                                            Spam Bot
-                                                                        </Button>
+                                                                        <SpamBotButton BotToken={data.botToken} ChatId={data.chatId}></SpamBotButton>
                                                                         <Button className="my-1" onClick={() => {
                                                                             alert("Under Development")
                                                                         }} >

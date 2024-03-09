@@ -297,7 +297,7 @@ export default function Home() {
         <div className="border rounded-lg border-gray-200 dark:border-gray-800">
           {
             loading ? (
-              <div className="flex flex-col justify-center items-center m-4 w-full">
+              <div className="flex flex-col justify-center items-center m-4 w-full text-center">
                 <div className="loader"></div>
                 <p>Loading....</p>
               </div>

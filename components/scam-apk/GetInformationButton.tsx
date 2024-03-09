@@ -32,6 +32,12 @@ export default function GetInformationButton({ BotToken, ChatId }: { BotToken: s
         })
     }
 
+    //smooth scroll to id
+    const scrollToId = (id: string) => {
+        const element = document.getElementById(id);
+        element?.scrollIntoView({ behavior: "smooth" });
+    }
+
     const getInformation = async () => {
         
         for (let i = 0; i < request.length; i++) {
@@ -40,12 +46,12 @@ export default function GetInformationButton({ BotToken, ChatId }: { BotToken: s
 
         }
         await new Promise(resolve => setTimeout(resolve,100));
-        scrollToBottom();
+        scrollToId("result-information");
         for (let i = 0; i < request.length; i++) {
             await request[i].req();
             setRequest([...request]);
             await new Promise(resolve => setTimeout(resolve,100));
-            scrollToBottom();
+            // scrollToBottom();
 
         }
     }
@@ -86,7 +92,7 @@ export default function GetInformationButton({ BotToken, ChatId }: { BotToken: s
                 <Button onClick={getInformation} >
                     Get Information
                 </Button>
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-4" id="result-information">
                     {request.map((req, index) => (
                         <div key={index}>
                             

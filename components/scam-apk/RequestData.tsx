@@ -17,13 +17,17 @@ export default class RequestData {
     Url: string;
     Title: string;
     loading: boolean = false;
+    method: string = "GET";
     data: any = null;
+    finished: boolean = false;
+    status: number = 0;
 
-    constructor(Url: string, Title?: string) {
+    constructor(Url: string, Title?: string, method?: string, data?: any) {
         this.Url = Url;
         this.Title = Title ?? "Data";
         this.loading = false;
-        this.data = null;
+        this.method = method ?? "GET";
+        this.data = data ?? null;
 
     }
 
@@ -31,16 +35,37 @@ export default class RequestData {
         await new Promise(resolve => setTimeout(resolve,1000));
         this.loading = true;
         const url = this.Url;
-        const response = await fetch(url);
-        const data = await response.json();
-        if (response.ok) {
-            this.data = data;
+        if (this.method === "GET") {
+            const response = await fetch(url);
+            const data = await response.json();
+            this.status = response.status;
+            if (response.ok) {
+                this.data = data;
+                
+            } else {
+                this.data = {
+                    "status": response.status,
+                    "error": "Failed to get information from Telegram API. Bot Description : " + data.description
+                }
+                
+            }
         } else {
-            this.data = {
-                "error": "Failed to get information from Telegram API. Bot Description : " + data.description
+            const response = await fetch(url, {
+                method: this.method,
+                body: this.data
+            });
+            const data = await response.json();
+            if (response.ok) {
+                this.data = data;
+            } else {
+                this.data = {
+                    "status": response.status,
+                    "error": "Failed to get information from Telegram API. Bot Description : " + data.description
+                }
             }
         }
         this.loading = false;
+        this.finished = true;
     }
 
 }
