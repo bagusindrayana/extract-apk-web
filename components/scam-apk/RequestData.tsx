@@ -21,13 +21,17 @@ export default class RequestData {
     data: any = null;
     finished: boolean = false;
     status: number = 0;
+    refresh: Function = () => { };
 
-    constructor(Url: string, Title?: string, method?: string, data?: any) {
+    constructor(Url: string, Title?: string, method?: string, data?: any, refresh?: Function) {
         this.Url = Url;
         this.Title = Title ?? "Data";
         this.loading = false;
         this.method = method ?? "GET";
         this.data = data ?? null;
+        this.finished = false;
+        this.status = 0;
+        this.refresh = refresh ?? (() => { });
 
     }
 
@@ -66,6 +70,7 @@ export default class RequestData {
         }
         this.loading = false;
         this.finished = true;
+        this.refresh();
     }
 
 }

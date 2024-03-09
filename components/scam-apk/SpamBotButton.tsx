@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
+import { Checkbox } from "@/components/ui/checkbox"
 
 import { Label } from "@/components/ui/label"
 import RequestData from "@/components/scam-apk/RequestData"
@@ -34,6 +35,7 @@ export default function SpamBotButton({ BotToken, ChatId }: { BotToken: string, 
     const [request, setRequest] = useState<RequestData[]>([])
     const [sendFile, setSendFile] = useState<boolean>(false);
     const [sending, setSending] = useState<boolean>(false);
+    const [asyncReq, setAsyncReq] = useState<boolean>(false);
 
     useEffect(() => {
         updateRequset();
@@ -114,22 +116,29 @@ export default function SpamBotButton({ BotToken, ChatId }: { BotToken: string, 
         }
         await new Promise(resolve => setTimeout(resolve, 100));
         scrollToId("result");
-        for (let i = 0; i < request.length; i++) {
-            await request[i].req();
-            setRequest([...request]);
-            await new Promise(resolve => setTimeout(resolve, 100));
+        if (asyncReq) {
+            for (let i = 0; i < request.length; i++) {
+                await request[i].req();
+                setRequest([...request]);
+                await new Promise(resolve => setTimeout(resolve, 100));
 
+            }
+        } else {
+            for (let i = 0; i < request.length; i++) {
+                request[i].refresh = () => { setRequest([...request]) };
+                request[i].req();
+            }
         }
     }
 
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col  my-2">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button >Spam Bot</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-screen-md">
                     <DialogHeader>
                         <DialogTitle>Spam Telegram Bot</DialogTitle>
                         <DialogDescription>
@@ -140,6 +149,19 @@ export default function SpamBotButton({ BotToken, ChatId }: { BotToken: string, 
                         <div>
                             <Label htmlFor="file">Spam Count</Label>
                             <Input type="number" id="file" value={spamCount} onChange={(e) => { setSpamCount(parseInt(e.target.value)) }} />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox id="async-req" onChange={
+                                (e) => {
+                                    setAsyncReq(!asyncReq)
+                                }
+                            } />
+                            <label
+                                htmlFor="async-req"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Async Request
+                            </label>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Label htmlFor="airplane-mode">Text</Label>

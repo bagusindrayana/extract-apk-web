@@ -5,14 +5,15 @@ import { ImageIcon } from "@/lib/AndroidImages";
 import { Button } from "@/components/ui/button"
 import { FiUpload } from "react-icons/fi";
 import { FcAndroidOs } from "react-icons/fc";
-import GetInformationButton from "@/components/scam-apk/GetInformationButton";
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import GetInformationButton from "@/components/scam-apk/GetInformationButton";
 import SpamBotButton from "@/components/scam-apk/SpamBotButton";
+import LogoutBotButton from "@/components/scam-apk/LogoutBotButton";
 
 
 interface BotTokenData {
@@ -300,11 +301,7 @@ export default function ScamApkPage() {
                                                                     <div className="flex flex-col">
                                                                         <GetInformationButton BotToken={data.botToken} ChatId={data.chatId}></GetInformationButton>
                                                                         <SpamBotButton BotToken={data.botToken} ChatId={data.chatId}></SpamBotButton>
-                                                                        <Button className="my-1" onClick={() => {
-                                                                            alert("Under Development")
-                                                                        }} >
-                                                                            Logout/Close Bot
-                                                                        </Button>
+                                                                        <LogoutBotButton BotToken={data.botToken}></LogoutBotButton>
                                                                     </div>
                                                                 </AccordionContent>
                                                             </AccordionItem>
