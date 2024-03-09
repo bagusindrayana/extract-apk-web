@@ -255,7 +255,7 @@ export default function ScamApkPage() {
                 <div className="border rounded-lg border-gray-200 dark:border-gray-800">
                     {
                         loading ? (
-                            <div className="flex flex-col justify-center items-center m-4 w-full text-center">
+                            <div className="flex flex-col justify-center items-center py-4 w-full text-center">
                                 <div className="loader"></div>
                                 <p>Loading....</p>
                             </div>

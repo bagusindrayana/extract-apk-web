@@ -63,6 +63,10 @@ export default function Home() {
   }, [apkLoader]);
 
 
+  const scrollToId = (id: string) => {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({ behavior: "smooth" });
+}
 
   function findPermission(name: string) {
     if (name == "" || name == null || name == undefined) {
@@ -198,6 +202,7 @@ export default function Home() {
       alert("Failed to load data inside APK file");
     }
     setLoading(false);
+    scrollToId("extract-menu");
   };
 
   //custom search
@@ -297,7 +302,7 @@ export default function Home() {
         <div className="border rounded-lg border-gray-200 dark:border-gray-800">
           {
             loading ? (
-              <div className="flex flex-col justify-center items-center m-4 w-full text-center">
+              <div className="flex flex-col justify-center items-center py-4 w-full text-center">
                 <div className="loader"></div>
                 <p>Loading....</p>
               </div>
@@ -332,7 +337,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-100 p-4">
-                  <Tabs defaultValue="permission" >
+                  <Tabs defaultValue="permission" id="extract-menu">
                     <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto" >
                       <TabsTrigger value="permission">Permission</TabsTrigger>
                       <TabsTrigger value="androidmanifest">AndroidManifest.xml</TabsTrigger>
